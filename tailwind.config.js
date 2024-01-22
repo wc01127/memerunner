@@ -7,6 +7,14 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        cyberpunkYellow: '#FEFF05',
+        cyberpunkBlack: '#000000',
+        // Add other colors as needed
+      },
+      fontFamily: {
+        cyberpunk: ['Orbitron', 'sans-serif'], // Replace 'Orbitron' with your chosen font
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

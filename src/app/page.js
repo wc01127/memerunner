@@ -1,113 +1,169 @@
-import Image from "next/image";
+'use client'
+import React, { useState, useEffect } from 'react';
 
 export default function Home() {
+  const [isConnected, setIsConnected] = useState(false);
+  const [currentChainId, setCurrentChainId] = useState('');
+  const [walletAddress, setWalletAddress] = useState('');
+
+
+  const connectWallet = async () => {
+    if (window.ethereum) {
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        if (accounts.length > 0) {
+          const formattedAddress = `${accounts[0].substring(0, 7)}...${accounts[0].substring(accounts[0].length - 5)}`;
+          setWalletAddress(formattedAddress);
+          setIsConnected(true);
+          const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+          setCurrentChainId(chainId);
+        }
+      } catch (error) {
+        console.error('Error connecting to MetaMask', error);
+      }
+    } else {
+      console.error('MetaMask not detected');
+    }
+  };
+
+  const disconnectWallet = () => {
+    console.log('Disconnecting wallet');
+    setIsConnected(false);
+    setCurrentChainId('');
+  };
+
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on('chainChanged', (chainId) => {
+        setCurrentChainId(chainId);
+      });
+    }
+
+    return () => {
+      if (window.ethereum) {
+        window.ethereum.removeListener('chainChanged', setCurrentChainId);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const ufo1 = document.querySelector('.ufo1');
+    const titleHeight = document.querySelector('h1').offsetHeight; // Height of the title
+    const screenHeight = window.innerHeight;
+    const randomizeUfo1Position = () => {
+      const topPosition = Math.random() * (screenHeight / 2 - ufo1.clientHeight) + titleHeight;
+      ufo1.style.top = `${topPosition}px`;
+    };
+  
+    randomizeUfo1Position();
+    ufo1.addEventListener('animationiteration', randomizeUfo1Position);
+  
+    return () => ufo1.removeEventListener('animationiteration', randomizeUfo1Position);
+  }, []);
+
+  useEffect(() => {
+    const ufo2 = document.querySelector('.ufo2');
+  
+    const animateUfo2 = () => {
+      // Reset animation to trigger reflow, allowing animation to restart
+      ufo2.style.animation = 'none';
+      setTimeout(() => {
+        ufo2.style.animation = 'ufo2Animation 4s linear';
+      }, 0);
+  
+      // Schedule next appearance
+      const nextAppearanceDelay = Math.random() * (13 - 4) + 4; // Random delay between 4 and 13 seconds
+      setTimeout(animateUfo2, nextAppearanceDelay * 1000 + 4000); // Wait for current animation to finish
+    };
+  
+    // Initial call to animate UFO
+    setTimeout(animateUfo2, 1000); // Start after a short delay
+  
+    return () => {
+      // Cleanup if needed
+    };
+  }, []);
+
+  useEffect(() => {
+    const bombs = document.querySelectorAll('.bomb');
+  
+    const randomizeBomb = (bomb) => {
+      const screenHeight = window.innerHeight;
+      const top = Math.random() * (screenHeight / 2 - bomb.clientHeight) + screenHeight / 2;
+      const left = Math.random() * (window.innerWidth - bomb.clientWidth);
+      bomb.style.top = `${top}px`;
+      bomb.style.left = `${left}px`;
+    };
+  
+    // Set initial positions
+    bombs.forEach(bomb => randomizeBomb(bomb));
+  
+    // Start intervals for random positioning
+    const intervals = Array.from(bombs).map(bomb => {
+      return setInterval(() => {
+        randomizeBomb(bomb);
+      }, Math.random() * 3400 + 1700); // Random interval between 3 to 8 seconds
+    });
+  
+    // Clear intervals on unmount
+    return () => {
+      intervals.forEach(interval => clearInterval(interval));
+    };
+  }, []);
+  
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+  <main className="main-background flex min-h-screen flex-col items-center justify-start p-2.5 bg-no-repeat bg-cover bg-center relative" 
+      style={{ backgroundImage: "url('/memerunner2.png')" }}
+  >
+      <img src="/ufo1.gif" className="ufo ufo1" />
+      <img src="/ufo2.gif" className="ufo ufo2" />
+      <img src="/bomb.gif" className="bomb bomb1" />
+
+      {/* Title and button container */}
+      <div className="title-button-container w-full">
+        {/* Invisible spacer with the same dimensions as the button */}
+        <button className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk invisible-spacer">
+            Connect Wallet
+        </button>
+
+        <h1 className="neon-title text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Meme Runner</h1>
+        <div>
+        <button
+            onClick={isConnected ? disconnectWallet : connectWallet}
+            onMouseOver={e => isConnected ? e.target.textContent = 'Disconnect' : null}
+            onMouseOut={e => e.target.textContent = isConnected ? 'Connected' : 'Connect Wallet'}
+            className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk"
+        >
+            {isConnected ? 'Connected' : 'Connect Wallet'}
+        </button>
+        {isConnected && walletAddress && (
+                <div className="wallet-address neon-title font-cyberpunk text-cyberpunkYellow">
+                    {walletAddress}
+                </div>
+        )}
         </div>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      {isConnected && currentChainId !== '0xa0c71fd' && (
+                  <div className="notification-text neon-title font-cyberpunk">
+              You are connected, but not on the right chain. Please switch to the 
+              <a href="https://docs.blast.io/using-blast" target="_blank" rel="noopener noreferrer">
+                  <img 
+                      src="/logo-glow.png" 
+                      alt="Blast" 
+                      style={{ 
+                          height: '1em', 
+                          verticalAlign: '-2px', 
+                          display: 'inline', 
+                          opacity: 0.95  // Adjust transparency as needed
+                      }} 
+                  />
+              </a>
+              network.
+          </div>
+      )}
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+  </main>
+  );}
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
-}

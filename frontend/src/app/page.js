@@ -144,21 +144,20 @@ export default function Home() {
       });
   }, []);
 
-  const [audio] = useState(new Audio('/background_music.mp3'));
+  const [audio, setAudio] = useState(null);
 
   useEffect(() => {
-    audio.loop = true;
-    audio.muted = true; // Start muted
-    audio.play()
-      .catch(error => console.error('Error playing audio:', error));
-  }, [audio]);
+    // Initialize the audio object here
+    const newAudio = new Audio('/background_music.mp3');
+    newAudio.loop = true;
+    setAudio(newAudio);
 
-  const handleMouseEnter = () => {
-    audio.muted = false;
-    if (audio.paused) {
-      audio.play();
-    }
-  };
+    // Play the audio
+    newAudio.play().catch(error => console.error('Error playing audio:', error));
+
+    // Cleanup function
+    return () => newAudio.pause();
+  }, []);
   
 
   return (
@@ -214,7 +213,7 @@ export default function Home() {
               network.
           </div>
       )}
-    <div className="coins-container" onMouseEnter={handleMouseEnter}>
+    <div className="coins-container">
       {coins.map((coin, index) => (
           <div key={index} className="coin">
           <div className="coin-image-container">

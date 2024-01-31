@@ -1,13 +1,28 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import Papa from 'papaparse';
-
 
 export default function Home() {
   const [isConnected, setIsConnected] = useState(false);
   const [currentChainId, setCurrentChainId] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
   const [coins, setCoins] = useState([]);
+
+  function replaceNaNWithNull(data) {
+    if (Array.isArray(data)) {
+      return data.map(item => replaceNaNWithNull(item));
+    } else if (typeof data === 'object' && data !== null) {
+      const newData = {};
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          newData[key] = replaceNaNWithNull(data[key]);
+        }
+      }
+      return newData;
+    } else if (typeof data === 'number' && isNaN(data)) {
+      return null;
+    }
+    return data;
+  }
 
   const connectWallet = async () => {
     if (window.ethereum) {
@@ -88,10 +103,6 @@ export default function Home() {
   }, []);
 
   
-  
-  
-
-  
 
   useEffect(() => {
     const bombs = document.querySelectorAll('.bomb');
@@ -121,25 +132,44 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    fetch('/enriched_coingecko_data.csv')
-      .then(response => response.text())
+    fetch('https://meme-runner-server-1c735c2018ad.herokuapp.com/api/enriched_coingecko_data')
+      .then(response => response.json())
       .then(data => {
-        Papa.parse(data, {
-          header: true,
-          complete: (result) => {
-            setCoins(result.data);
-          }
-        });
+        const cleanedData = replaceNaNWithNull(data); // Use the function to clean data
+        const filteredCoins = cleanedData.filter(coin => coin && coin.image);
+        setCoins(filteredCoins);
+      })
+      .catch(error => {
+        console.error('Error fetching coin data:', error);
       });
   }, []);
 
+  const [audio] = useState(new Audio('/background_music.mp3'));
+
+  useEffect(() => {
+    audio.loop = true;
+    audio.muted = true; // Start muted
+    audio.play()
+      .catch(error => console.error('Error playing audio:', error));
+  }, [audio]);
+
+  const handleMouseEnter = () => {
+    audio.muted = false;
+    if (audio.paused) {
+      audio.play();
+    }
+  };
+  
+
   return (
-  <main className="main-background flex min-h-screen flex-col items-center justify-start p-2.5 bg-no-repeat bg-cover bg-center relative" 
-      style={{ backgroundImage: "url('/memerunner2.png')" }}
-  >
+    <main className="main-background flex min-h-screen flex-col items-center justify-start p-2.5 bg-no-repeat bg-cover bg-center relative"
+      //style={{ backgroundImage: "url('/memerunner2.png')" }}
+    >
       <img src="/ufo1.gif" className="ufo ufo1" />
       <img src="/ufo2.gif" className="ufo ufo2" />
       <img src="/bomb.gif" className="bomb bomb1" />
+      <img src="/robot.gif" className="robot-gif" alt="Robot Animation" />
+
 
       {/* Title and button container */}
       <div className="title-button-container w-full">
@@ -184,9 +214,9 @@ export default function Home() {
               network.
           </div>
       )}
-    <div className="coins-container">
+    <div className="coins-container" onMouseEnter={handleMouseEnter}>
       {coins.map((coin, index) => (
-        <div key={index} className="coin">
+          <div key={index} className="coin">
           <div className="coin-image-container">
             <img src={coin.image} alt={coin.name} className="coin-image" />
           </div>
@@ -194,7 +224,12 @@ export default function Home() {
         </div>
       ))}
     </div>
-
+    <video id="background-video" autoPlay loop muted>
+        <source src="/memerunner_background.mp4" type="video/mp4"></source>
+    </video> 
+    //*<audio src="/memerunner_fx.mp3" loop autoPlay></audio>  
+    <img src="/watermark3.png" className="watermark" alt="Watermark" />
+    
   </main>
   );}
 

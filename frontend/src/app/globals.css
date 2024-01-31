@@ -165,6 +165,7 @@ body {
   align-items: center;
   max-width: 80%; /* Limit the width and adjust as needed */
   margin: 0 auto;
+  opacity: 0.9;
   margin-top: 50px;
   /* Add more styling as needed */
 }
@@ -174,6 +175,7 @@ body {
   border-radius: 50%; /* Makes it a circle */
   overflow: hidden; /* Hides the overflow to maintain the circle shape */
   display: flex;
+  opacity: 0.9;
   justify-content: center;
   align-items: center;
 }
@@ -181,20 +183,37 @@ body {
 .coin-image {
   width: 100%; /* Fill the container */
   height: 100%;
+  border-radius: 50%;
   object-fit: cover; /* Ensure the image covers the container */
   image-rendering: pixelated; /* Creates a pixelated effect */
-  filter: brightness(99%) contrast(130%);
+  opacity: 0.82;
+  filter: brightness(97%) contrast(115%);
+  transition: box-shadow 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition for glow and opacity */
+}
+
+.coin-image:hover {
+  box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.6); /* White glow */
+  opacity: 0.99; /* Increase opacity on hover for emphasis */
+  filter: brightness(105%) contrast(145%);
 }
 
 
 .coin {
   margin: 10px;
   text-align: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent grey */
+  border-radius: 10px; /* Optional: for rounded corners */
+  padding: 10px; /* Optional: for some space inside the container */
 }
 
-.coin-image:hover {
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.75);
+.coin:hover {
+  margin: 10px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.75); /* Semi-transparent grey */
+  border-radius: 10px; /* Optional: for rounded corners */
+  padding: 10px; /* Optional: for some space inside the container */
 }
+
 
 .coin-name {
   width: 100px; /* Match the width of the image */
@@ -202,4 +221,54 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   opacity: 0.9;
+}
+
+.coin-name:hover {
+  width: 100px; /* Match the width of the image */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.97;
+}
+
+#background-video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.watermark {
+  position: fixed; /* Fixed position relative to the viewport */
+  bottom: 5px; /* Distance from the bottom */
+  right: 5px; /* Distance from the right */
+  width: 160px; /* Adjust the width as needed */
+  height: auto; /* Maintain aspect ratio */
+  z-index: 1000; /* Ensure it's above other elements */
+  filter: brightness(98%) contrast(120%);
+  opacity: 0.87; /* Adjust opacity as needed */
+}
+
+.watermark:hover {
+  position: fixed; /* Fixed position relative to the viewport */
+  bottom: 5px; /* Distance from the bottom */
+  right: 5px; /* Distance from the right */
+  width: 160px; /* Adjust the width as needed */
+  filter: brightness(100%) contrast(140%);
+  height: auto; /* Maintain aspect ratio */
+  z-index: 1000; /* Ensure it's above other elements */
+  opacity: 0.94; /* Adjust opacity as needed */
+}
+
+.robot-gif {
+  position: fixed;
+  bottom: 31px; /* Adjust as needed */
+  left: 228px; /* Adjust as needed */
+  width: 60px; /* Adjust size as needed */
+  height: auto;
 }

@@ -227,7 +227,6 @@ export default function Home() {
     <video id="background-video" autoPlay loop muted>
         <source src="/memerunner_background.mp4" type="video/mp4"></source>
     </video> 
-    //*<audio src="/memerunner_fx.mp3" loop autoPlay></audio>  
     <img src="/watermark3.png" className="watermark" alt="Watermark" />
     
   </main>

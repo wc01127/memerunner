@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.button-connect-wallet {
+.button-connect-wallet, .vertical-button {
   padding: 6px 12px;
   background-color: #FEFF05; /* Cyberpunk Yellow */
   color: #000000; /* Cyberpunk Black */
@@ -15,7 +15,7 @@
   /* Removed position: absolute; */
 }
 
-.button-connect-wallet:hover {
+.button-connect-wallet:hover, .vertical-button:hover {
   color: #FEFF05; /* Cyberpunk Yellow */
   background-color: transparent;
   border-color: #FEFF05; /* Cyberpunk Yellow */
@@ -99,7 +99,7 @@ body {
 }
 
 /* Neon glow effect for the button */
-.neon-button {
+.neon-button, .vertical-button {
   box-shadow:
     0 0 1px rgba(254, 255, 5, 0.8),
     0 0 2px rgba(254, 255, 5, 0.7),
@@ -243,32 +243,61 @@ body {
   z-index: -1;
 }
 
+.robot-gif {
+  position: absolute;
+  bottom: 95%; /* Place the bottom of the robot at the top of the watermark */
+  width: 60px; /* Adjust size as needed */
+  height: auto;
+}
+
 .watermark {
   position: fixed; /* Fixed position relative to the viewport */
-  bottom: 5px; /* Distance from the bottom */
-  right: 5px; /* Distance from the right */
-  width: 160px; /* Adjust the width as needed */
+  bottom: 1%; /* Distance from the bottom */
+  right: 0.5%; /* Distance from the right */
+  width: 80px; /* Adjust the width as needed */
   height: auto; /* Maintain aspect ratio */
   z-index: 1000; /* Ensure it's above other elements */
   filter: brightness(98%) contrast(120%);
   opacity: 0.87; /* Adjust opacity as needed */
+  display: flex; /* Use flexbox to center child elements */
+  justify-content: center; /* Center horizontally */
+  align-items: end; /* Align at the bottom */
 }
 
 .watermark:hover {
   position: fixed; /* Fixed position relative to the viewport */
   bottom: 5px; /* Distance from the bottom */
   right: 5px; /* Distance from the right */
-  width: 160px; /* Adjust the width as needed */
+  width: 120px; /* Adjust the width as needed */
   filter: brightness(100%) contrast(140%);
   height: auto; /* Maintain aspect ratio */
   z-index: 1000; /* Ensure it's above other elements */
   opacity: 0.94; /* Adjust opacity as needed */
+  transition: 0.5s;
 }
 
-.robot-gif {
-  position: fixed;
-  bottom: 31px; /* Adjust as needed */
-  left: 228px; /* Adjust as needed */
-  width: 60px; /* Adjust size as needed */
-  height: auto;
+.vertical-button {
+  @apply flex flex-col justify-center items-center;
+  font-weight: bold;
+  writing-mode: horizontal-tb;
+  text-orientation: upright;
+  position: fixed; /* Fixed position to place them on the sides */
+  z-index: 10; /* Ensure they're above other elements */
 }
+
+.button-make {
+  @apply vertical-button;
+  left: 5%; /* Adjust as necessary for spacing from the left edge */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust vertical centering */
+}
+
+.button-take {
+  @apply vertical-button;
+  right: 5%; /* Adjust as necessary for spacing from the right edge */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust vertical centering */
+}
+
+
+

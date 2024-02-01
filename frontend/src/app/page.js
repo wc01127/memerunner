@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 export default function Home() {
   const [isConnected, setIsConnected] = useState(false);
@@ -167,8 +168,18 @@ export default function Home() {
       <img src="/ufo1.gif" className="ufo ufo1" />
       <img src="/ufo2.gif" className="ufo ufo2" />
       <img src="/bomb.gif" className="bomb bomb1" />
-      <img src="/robot.gif" className="robot-gif" alt="Robot Animation" />
 
+      <Link href="/make.js">
+        <button className="button-make font-cyberpunk">
+          M<br/>A<br/>K<br/>E
+        </button>
+      </Link>
+
+      <Link href="/take.js">
+      <button className="button-take font-cyberpunk">
+        T<br/>A<br/>K<br/>E
+      </button>
+      </Link>
 
       {/* Title and button container */}
       <div className="title-button-container w-full">
@@ -226,7 +237,11 @@ export default function Home() {
     <video id="background-video" autoPlay loop muted>
         <source src="/memerunner_background.mp4" type="video/mp4"></source>
     </video> 
-    <img src="/watermark3.png" className="watermark" alt="Watermark" />
+
+    <div class="watermark">
+      <img src="/watermark3.png" alt="Watermark" />
+      <img src="/robot.gif" className="robot-gif" alt="Robot Animation" />
+    </div>
     
   </main>
   );}

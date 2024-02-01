@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.1.2",
     "canvas": "^2.11.2",
     "ethers": "^6.10.0",
     "fast-average-color": "^9.4.0",

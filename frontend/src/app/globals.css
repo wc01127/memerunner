@@ -5,20 +5,19 @@
 
 .button-connect-wallet, .vertical-button {
   padding: 6px 12px;
-  background-color: #FEFF05; /* Cyberpunk Yellow */
-  color: #000000; /* Cyberpunk Black */
+  background-color: transparent; /* Make background transparent */
+  color: #FEFF05; /* Cyberpunk Yellow text */
+  border: 2px solid #FEFF05; /* Cyberpunk Yellow border */
   font-weight: bold;
   opacity: 0.95;
   border-radius: 5px;
-  border: 2px solid transparent;
   transition: background-color 0.3s, color 0.3s, border 0.3s;
-  /* Removed position: absolute; */
 }
 
 .button-connect-wallet:hover, .vertical-button:hover {
-  color: #FEFF05; /* Cyberpunk Yellow */
-  background-color: transparent;
-  border-color: #FEFF05; /* Cyberpunk Yellow */
+  background-color: #FEFF05; /* Cyberpunk Yellow background */
+  color: #000000; /* Make text color match the background color for 'transparent' effect */
+  border-color: transparent; /* Optional: make border transparent on hover */
   opacity: 0.95;
 }
 
@@ -107,18 +106,25 @@ body {
 }
 
 .neon-button:hover {
-  color: #FEFF05; /* Cyberpunk Yellow */
-  background-color: transparent;
-  border-color: #FEFF05; /* Cyberpunk Yellow */
+  background-color: #FEFF05; /* Cyberpunk Yellow background */
+  color: #000000; /* Make text color match the background color for 'transparent' effect */
+  border-color: transparent; /* Optional: make border transparent on hover */
+  opacity: 0.95;
 }
 
 .title-button-container {
+  position: fixed; /* Fixed position at the top */
+  top: 0; /* Align to the top of the screen */
+  left: 0; /* Align to the left of the screen */
+  width: 100%; /* Stretch across the full width */
+
+  z-index: 1000; /* Ensure it's above other elements */
   display: flex;
-  justify-content: space-between; /* Space out the children */
+  justify-content: space-between; /* Keep existing alignment */
   align-items: center;
-  margin-bottom: 50px;
-  width: 100%; /* Ensure the container takes full width */
+  padding: 10px; /* Add some padding */
 }
+
 .invisible-spacer {
   visibility: hidden;
 }
@@ -140,6 +146,7 @@ body {
 .main-background {
   animation: flickerAnimation 8s infinite;
   display: flex;
+  padding-top: 70px; /* Add padding to the top equal to the height of the title bar */
   flex-direction: column;
   justify-content: center; /* Center vertically */
   align-items: center; /* Center horizontally */
@@ -161,14 +168,13 @@ body {
 .coins-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  max-width: 80%; /* Limit the width and adjust as needed */
-  margin: 0 auto;
+  justify-content: center; /* Keep coins centered */
+  gap: 10px; /* Adjust based on your layout */
+  flex-basis: 20%; /* Adjust if necessary but might not be needed */
+  max-width: 80%; 
   opacity: 0.9;
-  margin-top: 50px;
-  /* Add more styling as needed */
 }
+
 .coin-image-container {
   width: 100px; /* Diameter of the circle */
   height: 100px; /* Diameter of the circle */
@@ -273,7 +279,7 @@ body {
   height: auto; /* Maintain aspect ratio */
   z-index: 1000; /* Ensure it's above other elements */
   opacity: 0.94; /* Adjust opacity as needed */
-  transition: 0.5s;
+  transition: 0.5s ease-in-out;
 }
 
 .vertical-button {
@@ -297,4 +303,47 @@ body {
   right: 5%; /* Adjust as necessary for spacing from the right edge */
   top: 50%; /* Center vertically */
   transform: translateY(-50%); /* Adjust vertical centering */
+}
+
+.sort-dropdown {
+  background-color: transparent;
+  color: #FEFF05; /* Yellow text */
+  border: 2px solid #FEFF05; /* Yellow border */
+  padding: 8px;
+  cursor: pointer;
+}
+
+.sort-dropdown:hover {
+  background-color: #FEFF05; /* Yellow background */
+  color: black; /* Black text */
+}
+
+.sort-dropdown option {
+  background-color: #000000; /* Cyberpunk Black for options */
+  color: #FEFF05; /* Cyberpunk Yellow text for options */
+  font-family: 'Orbitron'; /* Match the font with the rest of the site */
+}
+
+.coins-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Ensure the section is centered */
+  width: 100%;
+}
+
+.selector-container {
+  margin-bottom: 20px; /* Space between the selector and the coins */
+  margin-left: 15%;
+  align-self: flex-start; /* Center the dropdown selector */
+  width: 20%; 
+
+}
+
+.custom-react-select-container:hover .custom-react-select__control {
+  background-color: #FEFF05; /* Yellow background on hover */
+  color: #000000; /* Black text on hover */
+}
+
+.custom-react-select-container:hover .custom-react-select__single-value {
+  color: #000000; /* Ensure text color changes to black on hover */
 }

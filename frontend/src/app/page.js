@@ -1,29 +1,108 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import ReactSelect from 'react-select';
+
 
 export default function Home() {
   const [isConnected, setIsConnected] = useState(false);
   const [currentChainId, setCurrentChainId] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
-  const [coins, setCoins] = useState([]);
+  const [originalCoins, setOriginalCoins] = useState([]); // Store the original list of coins
+  const [coins, setCoins] = useState([]); // This will store the filtered and sorted list of coins
+  const [selectedSortOption, setSelectedSortOption] = useState(null); // Initialize with null
 
-  function replaceNaNWithNull(data) {
-    if (Array.isArray(data)) {
-      return data.map(item => replaceNaNWithNull(item));
-    } else if (typeof data === 'object' && data !== null) {
-      const newData = {};
-      for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-          newData[key] = replaceNaNWithNull(data[key]);
+
+  const sortOptions = [
+    { value: 'market_cap', label: 'Market Cap' },
+    { value: 'fully_diluted_valuation', label: 'FDV' },
+    { value: 'coingecko_watchers', label: 'CoinGecko Watchers' },
+    { value: 'price_change_percentage_7d', label: '1 Week Change' },
+    { value: 'price_change_percentage_14d', label: '2 Week Change' },
+    { value: 'price_change_percentage_30d', label: '1 Month Change' },
+    { value: 'price_change_percentage_60d', label: '2 Month Change' },
+    { value: 'ath_change_percentage', label: 'ATH Change' },
+  ];
+
+  const formatNumber = (num) => {
+    if (num === 0) return '0';
+    const d = Math.ceil(Math.log10(num < 0 ? -num : num)); // Number of digits
+    const power = 3 - d;
+    const magnitude = Math.pow(10, power);
+    const shifted = Math.round(num * magnitude);
+    return (shifted / magnitude).toFixed(power >= 0 ? power : 0);
+  };
+
+  const formatValue = (value, option) => {
+    if (option.includes('percentage')) {
+      return `${formatNumber(value)}%`; // Format as percentage
+    } else if (option === 'market_cap' || option === 'fully_diluted_valuation') {
+      // Format as currency
+      const units = ['Tr', 'B', 'M', 'Th'];
+      const amounts = [1e12, 1e9, 1e6, 1e3];
+      for (let i = 0; i < amounts.length; i++) {
+        if (value >= amounts[i]) {
+          return `$${formatNumber(value / amounts[i])} ${units[i]}`;
         }
       }
-      return newData;
-    } else if (typeof data === 'number' && isNaN(data)) {
-      return null;
+      return `$${formatNumber(value)}`; // Fallback for values less than 1000
+    } else if (option === 'coingecko_watchers') {
+      // Format large numbers with T, B, M, or Th
+      const units = ['T', 'B', 'M', 'Th'];
+      const amounts = [1e12, 1e9, 1e6, 1e3];
+      for (let i = 0; i < amounts.length; i++) {
+        if (value >= amounts[i]) {
+          return `${formatNumber(value / amounts[i])} ${units[i]}`;
+        }
+      }
+      return formatNumber(value); // Fallback for values less than 1000
     }
-    return data;
-  }
+    return formatNumber(value); // Default formatting
+  };
+
+  const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isFocused ? '#FEFF05' : 'transparent',
+      borderColor: '#FEFF05',
+      color: state.isFocused ? '#000000' : '#FEFF05',
+      fontFamily: 'Orbitron',
+      opacity: 0.95, // Set the opacity to 95%
+      ':hover': {
+        ...provided[':hover'],
+        opacity: 0.95, // Set the opacity to 95%
+        backgroundColor: '#FEFF05',
+        opacity: 0.95, // Set the opacity to 95%
+        color: '#000000',
+      },
+    }),
+    menu: (provided) => ({
+      ...provided,
+      backgroundColor: '#FEFF05',
+      fontFamily: 'Orbitron',
+      opacity: 0.95, // Set the opacity to 95%
+      color: '#000000',
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected || state.isFocused ? '#FEFF05' : 'transparent',
+      color: '#000000',
+      opacity: 0.95, // Set the opacity to 95%
+      fontFamily: 'Orbitron',
+      ':hover': {
+        backgroundColor: '#FEFF05',
+        opacity: 0.95, // Set the opacity to 95%
+        color: '#000000',
+      },
+    }),
+    singleValue: (provided, state) => ({
+      ...provided,
+      fontFamily: 'Orbitron',
+      opacity: 0.95, // Set the opacity to 95%
+      color: state.selectProps.menuIsOpen ? '#000000' : '#FEFF05',
+    }),
+    // ... other parts you want to style
+  };
 
   const connectWallet = async () => {
     if (window.ethereum) {
@@ -133,16 +212,18 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    // Fetch coins data from API
     fetch('https://meme-runner-server-1c735c2018ad.herokuapp.com/api/enriched_coingecko_data')
       .then(response => response.json())
       .then(data => {
-        const cleanedData = replaceNaNWithNull(data); // Use the function to clean data
-        const filteredCoins = cleanedData.filter(coin => coin && coin.image);
-        setCoins(filteredCoins);
+        const cleanedData = data.map(coin => ({
+          ...coin,
+          // Replace NaN with null or any other cleanup you need
+        }));
+        setOriginalCoins(cleanedData); // Store the original coins data
+        setSelectedSortOption(sortOptions[0]); // Set default sort option after fetching
       })
-      .catch(error => {
-        console.error('Error fetching coin data:', error);
-      });
+      .catch(error => console.error('Error fetching coin data:', error));
   }, []);
 
   const [audio, setAudio] = useState(null);
@@ -160,6 +241,25 @@ export default function Home() {
     return () => newAudio.pause();
   }, []);
   
+  useEffect(() => {
+    // This effect runs when selectedSortOption changes or the originalCoins data changes
+    if (selectedSortOption && originalCoins.length > 0) {
+      const filteredAndSortedCoins = originalCoins
+        .filter(coin => coin[selectedSortOption.value] !== 0) // Filter out coins with a value of 0 for the selected option
+        .sort((a, b) => b[selectedSortOption.value] - a[selectedSortOption.value]); // Sort coins based on the selected option
+
+      setCoins(filteredAndSortedCoins); // Update the coins state with the filtered and sorted list
+    }
+  }, [selectedSortOption, originalCoins]); // Depend on selectedSortOption and originalCoins
+
+  const handleSortChange = (selectedOption) => {
+    setSelectedSortOption(selectedOption);
+    // Logic to filter and sort coins based on the selected option
+    const newSortedCoins = originalCoins
+      .filter(coin => coin[selectedOption.value] !== 0)
+      .sort((a, b) => b[selectedOption.value] - a[selectedOption.value]);
+    setCoins(newSortedCoins);
+  };
 
   return (
     <main className="main-background flex min-h-screen flex-col items-center justify-start p-2.5 bg-no-repeat bg-cover bg-center relative"
@@ -224,15 +324,32 @@ export default function Home() {
               network.
           </div>
       )}
+
+<div className="coins-section">
+  <div className="selector-container">
+    <ReactSelect
+      options={sortOptions}
+      styles={customStyles}
+      value={selectedSortOption}
+      onChange={handleSortChange}
+      className="custom-react-select-container"
+      classNamePrefix="custom-react-select"
+    />
+  </div>
     <div className="coins-container">
+
       {coins.map((coin, index) => (
           <div key={index} className="coin">
           <div className="coin-image-container">
-            <img src={coin.image} alt={coin.name} className="coin-image" />
+            <img src={coin.image} alt={coin.symbol.toUpperCase()} className="coin-image" />
           </div>
-          <div className="coin-name neon-title font-cyberpunk">{coin.name}</div>
+          <div className="coin-name neon-title font-cyberpunk">{coin.symbol.toUpperCase()}</div>
+          <div className="coin-value neon-title font-cyberpunk" style={{ fontSize: 'smaller' }}>
+            {formatValue(coin[selectedSortOption.value], selectedSortOption.value)}
+          </div>
         </div>
       ))}
+    </div>
     </div>
     <video id="background-video" autoPlay loop muted>
         <source src="/memerunner_background.mp4" type="video/mp4"></source>

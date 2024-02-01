@@ -18,7 +18,7 @@ STRIP_CHARS = '!?@#$.'
 CMC_API_KEY = '02630e73-8ed0-48f7-80ce-a60398599468'  
 CG_API_KEY = 'CG-wkaU3WnSmWTxKcCYfhSezwMF'
 DATA_FILE_PATH = 'enriched_data.json'
-UPDATE_INTERVAL = timedelta(hours=8)  # Interval to refresh data
+UPDATE_INTERVAL = timedelta(hours=6)  # Interval to refresh data
 
 # Initialize CoinMarketCapAPI
 cmc = CoinMarketCapAPI(CMC_API_KEY)

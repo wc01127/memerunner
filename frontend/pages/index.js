@@ -230,13 +230,12 @@ export default function Home() {
 
   useEffect(() => {
     // Initialize the audio object here
-    const newAudio = new Audio('/new_background.mp3');
+    const newAudio = new Audio('/background_music.mp3');
     newAudio.loop = true;
+    newAudio.volume = 0.1;
     setAudio(newAudio);
-
     // Play the audio
     newAudio.play().catch(error => console.error('Error playing audio:', error));
-
     // Cleanup function
     return () => newAudio.pause();
   }, []);

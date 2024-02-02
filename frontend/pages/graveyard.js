@@ -83,12 +83,12 @@ export default function YourPageName() {
       </div>
 
       <div class="watermark">
-      <img src="/watermark3.png" alt="Watermark" />
+      <img src="/watermark4.png" alt="Watermark" />
       <img src="/robot.gif" className="robot-gif" alt="Robot Animation" />
     </div>
 
     <div className="watermark2">
-        <img src="/ratatat_mark.png" alt="Watermark2" />
+        <img src="/ratatat_mark2.png" alt="Watermark2" />
         <img src="/ape.gif" className="ape-gif" alt="Ape Animation" />
       </div>
     </main>

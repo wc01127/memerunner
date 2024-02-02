@@ -28,13 +28,16 @@ export default function YourPageName() {
   };
 
   return (
-    <main className="graveyard-background flex min-h-screen flex-col items-center justify-center p-2.5 bg-no-repeat bg-cover bg-center relative"
+    <main className="main-background flex min-h-screen flex-col items-center justify-center p-2.5 bg-no-repeat bg-cover bg-center relative"
     >
-      <video autoPlay loop muted className="absolute w-full h-full object-cover">
-        <source src="/graveyard_background.mp4" type="video/mp4" />
-      </video>
+    <video id="background-video" autoPlay loop muted>
+        <source src="/graveyard_background.mp4" type="video/mp4"></source>
+    </video> 
 
       <div className="title-button-container w-full">
+      <button className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk invisible-spacer">
+            Connect Wallet
+        </button>
         <h1 className="neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Graveyard</h1>
         <button
           onClick={isConnected ? disconnectWallet : connectWallet}

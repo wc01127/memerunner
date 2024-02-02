@@ -260,9 +260,7 @@ export default function Home() {
   };
 
   return (
-    <main className="main-background flex min-h-screen flex-col items-center justify-start p-2.5 bg-no-repeat bg-cover bg-center relative"
-      //style={{ backgroundImage: "url('/memerunner2.png')" }}
-    >
+    <main className="main-background flex min-h-screen flex-col items-center justify-start p-2.5 bg-no-repeat bg-cover bg-center relative">
       <img src="/ufo1.gif" className="ufo ufo1" />
       <img src="/ufo2.gif" className="ufo ufo2" />
       <img src="/bomb.gif" className="bomb bomb1" />
@@ -350,7 +348,7 @@ export default function Home() {
     </div>
     </div>
     <div className="graveyard-button-container">
-        <Link href="/graveyard" className="grave-button font-cyberpunk">Graveyard</Link>
+        <Link href="/graveyard" className="grave-button font-cyberpunk">GRAVES</Link>
       </div>
     <video id="background-video" autoPlay loop muted>
         <source src="/memerunner_background.mp4" type="video/mp4"></source>

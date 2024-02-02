@@ -3,7 +3,6 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/take": "pages/take.js",
-  "/": "pages/index.js",
-  "/make": "pages/make.js",
-  "/graveyard": "pages/graveyard.js"
+  "/graveyard": "pages/graveyard.js",
+  "/": "pages/index.js"
 }

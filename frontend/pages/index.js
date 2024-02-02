@@ -230,7 +230,7 @@ export default function Home() {
 
   useEffect(() => {
     // Initialize the audio object here
-    const newAudio = new Audio('/background_music.mp3');
+    const newAudio = new Audio('/new_background.mp3');
     newAudio.loop = true;
     setAudio(newAudio);
 

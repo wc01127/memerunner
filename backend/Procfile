@@ -1,1 +1,1 @@
-worker: python meme_api_clean.py
+web: gunicorn meme_api_clean:app

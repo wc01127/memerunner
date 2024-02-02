@@ -30,6 +30,9 @@ export default function YourPageName() {
   return (
     <main className="graveyard-background flex min-h-screen flex-col items-center justify-center p-2.5 bg-no-repeat bg-cover bg-center relative"
     >
+      <video autoPlay loop muted className="absolute w-full h-full object-cover">
+        <source src="/graveyard_background.mp4" type="video/mp4" />
+      </video>
 
       <div className="title-button-container w-full">
         <h1 className="neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Graveyard</h1>
@@ -44,6 +47,22 @@ export default function YourPageName() {
             {walletAddress}
           </div>
         )}
+      </div>
+      
+      <Link href="/make">
+        <button className="button-make font-cyberpunk">
+        M<br/>A<br/>K<br/>E
+        </button>
+      </Link>
+
+      <Link href="/take">
+      <button className="button-take font-cyberpunk">
+        T<br/>A<br/>K<br/>E
+      </button>
+      </Link>
+
+      <div className="graveyard-button-container">
+        <Link href="/" className="grave-button font-cyberpunk">BACK</Link>
       </div>
 
       <div className="watermark">

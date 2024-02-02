@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import ReactSelect from 'react-select';
 
-
 export default function Home() {
   const [isConnected, setIsConnected] = useState(false);
   const [currentChainId, setCurrentChainId] = useState('');

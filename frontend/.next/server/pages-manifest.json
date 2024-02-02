@@ -2,5 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js"
+  "/take": "pages/take.js",
+  "/": "pages/index.js",
+  "/make": "pages/make.js",
+  "/graveyard": "pages/graveyard.js"
 }

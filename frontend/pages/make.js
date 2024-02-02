@@ -36,7 +36,7 @@ export default function YourPageName() {
       </video>
 
       <div className="title-button-container w-full">
-        <h1 className="neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Make</h1>
+        <h1 className="neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Maker's Factory</h1>
         <button
           onClick={isConnected ? disconnectWallet : connectWallet}
           className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk"
@@ -48,6 +48,22 @@ export default function YourPageName() {
             {walletAddress}
           </div>
         )}
+      </div>
+
+      <Link href="/">
+        <button className="button-make font-cyberpunk">
+          B<br/>A<br/>C<br/>K
+        </button>
+      </Link>
+
+      <Link href="/take">
+      <button className="button-take font-cyberpunk">
+        T<br/>A<br/>K<br/>E
+      </button>
+      </Link>
+
+      <div className="graveyard-button-container">
+        <Link href="/graveyard" className="grave-button font-cyberpunk">GRAVE</Link>
       </div>
 
       <div className="watermark">

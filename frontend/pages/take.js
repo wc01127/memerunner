@@ -29,14 +29,14 @@ export default function YourPageName() {
 
   return (
     <main className="main-background flex min-h-screen flex-col items-center justify-center p-2.5 bg-no-repeat bg-cover bg-center relative"
-      style={{ backgroundImage: "url('/factory_background.mp4')" }}
+      style={{ backgroundImage: "url('/market_background.mp4')" }}
     >
       <video autoPlay loop muted className="absolute w-full h-full object-cover">
-        <source src="/factory_background.mp4" type="video/mp4" />
+        <source src="/market_background.mp4" type="video/mp4" />
       </video>
 
       <div className="title-button-container w-full">
-        <h1 className="neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Take</h1>
+        <h1 className="neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Taker's Market</h1>
         <button
           onClick={isConnected ? disconnectWallet : connectWallet}
           className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk"
@@ -49,6 +49,22 @@ export default function YourPageName() {
           </div>
         )}
       </div>
+
+      <Link href="/make">
+        <button className="button-make font-cyberpunk">
+          M<br/>A<br/>K<br/>E
+        </button>
+      </Link>
+
+      <Link href="/">
+      <button className="button-take font-cyberpunk">
+        B<br/>A<br/>C<br/>K
+      </button>
+      </Link>
+
+      <div className="graveyard-button-container">
+        <Link href="/graveyard" className="grave-button font-cyberpunk">GRAVE</Link>
+      </div>    
 
       <div className="watermark">
         <img src="/watermark3.png" alt="Watermark" />

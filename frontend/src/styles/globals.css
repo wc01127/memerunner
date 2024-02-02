@@ -178,7 +178,7 @@ body {
   justify-content: center; /* Keep coins centered */
   gap: 10px; /* Adjust based on your layout */
   flex-basis: 20%; /* Adjust if necessary but might not be needed */
-  max-width: 78%; 
+  max-width: 70%; 
   padding: 5px; /* Add some padding around the coins */
   border-radius: 10px; /* Optional: adds rounded corners */
   background-color: rgba(211, 211, 211, 0.45); 

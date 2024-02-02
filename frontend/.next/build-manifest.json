@@ -35,10 +35,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/graveyard.js"
     ],
-    "/take": [
+    "/make": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/take.js"
+      "static/chunks/pages/make.js"
     ]
   },
   "ampFirstPages": []

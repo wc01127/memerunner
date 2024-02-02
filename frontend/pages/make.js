@@ -26,6 +26,20 @@ export default function YourPageName() {
     setIsConnected(false);
     setWalletAddress('');
   };
+  
+  const [audio, setAudio] = useState(null);
+
+  useEffect(() => {
+    // Initialize the audio object here
+    const newAudio = new Audio('/Rome.mp3');
+    newAudio.loop = true;
+    newAudio.volume = 0.1;
+    setAudio(newAudio);
+    // Play the audio
+    newAudio.play().catch(error => console.error('Error playing audio:', error));
+    // Cleanup function
+    return () => newAudio.pause();
+  }, []);
 
   return (
     <main className="main-background flex min-h-screen flex-col items-center justify-center p-2.5 bg-no-repeat bg-cover bg-center relative">
@@ -53,7 +67,7 @@ export default function YourPageName() {
 
       <Link href="/">
         <button className="button-make font-cyberpunk">
-          B<br/>A<br/>C<br/>K
+          H<br/>O<br/>M<br/>E
         </button>
       </Link>
 
@@ -67,9 +81,14 @@ export default function YourPageName() {
         <Link href="/graveyard" className="grave-button font-cyberpunk">GRAVES</Link>
       </div>
 
-      <div className="watermark">
-        <img src="/watermark3.png" alt="Watermark" />
-        <img src="/robot.gif" className="robot-gif" alt="Robot Animation" />
+      <div class="watermark">
+      <img src="/watermark3.png" alt="Watermark" />
+      <img src="/robot.gif" className="robot-gif" alt="Robot Animation" />
+    </div>
+
+    <div className="watermark2">
+        <img src="/ratatat_mark.png" alt="Watermark2" />
+        <img src="/ape.gif" className="ape-gif" alt="Ape Animation" />
       </div>
     </main>
   );

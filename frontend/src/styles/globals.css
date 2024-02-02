@@ -291,6 +291,39 @@ body {
   transition: 0.5s ease-in-out;
 }
 
+.watermark2 {
+  position: fixed; /* Fixed position relative to the viewport */
+  bottom: 2%; /* Distance from the bottom */
+  left: 0%; /* Distance from the left, changed from right to left */
+  width: 132px; /* Adjust the width as needed */
+  height: auto; /* Maintain aspect ratio */
+  z-index: 1000; /* Ensure it's above other elements */
+  filter: brightness(98%) contrast(120%);
+  opacity: 0.87; /* Adjust opacity as needed */
+  display: flex; /* Use flexbox to center child elements */
+  justify-content: center; /* Center horizontally */
+  align-items: end; /* Align at the bottom */
+}
+
+.watermark2:hover {
+  position: fixed; /* Fixed position relative to the viewport */
+  bottom: 1%; /* Distance from the bottom */
+  left: 0%; /* Distance from the left, changed from right to left */
+  width: 198px; /* Adjust the width as needed */
+  filter: brightness(100%) contrast(140%);
+  height: auto; /* Maintain aspect ratio */
+  z-index: 1000; /* Ensure it's above other elements */
+  opacity: 0.94; /* Adjust opacity as needed */
+  transition: 0.5s ease-in-out;
+}
+
+.ape-gif {
+  position: absolute;
+  bottom: 88%; /* Place the bottom of the robot at the top of the watermark */
+  width: 65px; /* Adjust size as needed */
+  height: auto;
+}
+
 .vertical-button {
   @apply flex flex-col justify-center items-center;
   font-weight: bold;

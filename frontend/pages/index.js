@@ -15,12 +15,12 @@ export default function Home() {
   const sortOptions = [
     { value: 'market_cap', label: 'Market Cap' },
     { value: 'fully_diluted_valuation', label: 'FDV' },
-    { value: 'coingecko_watchers', label: 'CoinGecko Watchers' },
     { value: 'price_change_percentage_7d', label: '1 Week Change' },
     { value: 'price_change_percentage_14d', label: '2 Week Change' },
     { value: 'price_change_percentage_30d', label: '1 Month Change' },
     { value: 'price_change_percentage_60d', label: '2 Month Change' },
     { value: 'ath_change_percentage', label: 'ATH Change' },
+    { value: 'coingecko_watchers', label: 'CoinGecko Watchers' },
   ];
 
   const formatNumber = (num) => {
@@ -229,7 +229,7 @@ export default function Home() {
 
   useEffect(() => {
     // Initialize the audio object here
-    const newAudio = new Audio('/background_music.mp3');
+    const newAudio = new Audio('/Nostrand.mp3');
     newAudio.loop = true;
     newAudio.volume = 0.1;
     setAudio(newAudio);
@@ -358,6 +358,11 @@ export default function Home() {
       <img src="/watermark3.png" alt="Watermark" />
       <img src="/robot.gif" className="robot-gif" alt="Robot Animation" />
     </div>
+
+    <div className="watermark2">
+        <img src="/ratatat_mark.png" alt="Watermark2" />
+        <img src="/ape.gif" className="ape-gif" alt="Ape Animation" />
+      </div>
     
   </main>
   );}

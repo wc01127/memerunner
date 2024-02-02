@@ -27,6 +27,20 @@ export default function YourPageName() {
     setWalletAddress('');
   };
 
+  const [audio, setAudio] = useState(null);
+
+  useEffect(() => {
+    // Initialize the audio object here
+    const newAudio = new Audio('/Drift.mp3');
+    newAudio.loop = true;
+    newAudio.volume = 0.1;
+    setAudio(newAudio);
+    // Play the audio
+    newAudio.play().catch(error => console.error('Error playing audio:', error));
+    // Cleanup function
+    return () => newAudio.pause();
+  }, []);
+
   return (
     <main className="main-background flex min-h-screen flex-col items-center justify-center p-2.5 bg-no-repeat bg-cover bg-center relative"
     >
@@ -65,12 +79,17 @@ export default function YourPageName() {
       </Link>
 
       <div className="graveyard-button-container">
-        <Link href="/" className="grave-button font-cyberpunk">BACK</Link>
+        <Link href="/" className="grave-button font-cyberpunk">HOME</Link>
       </div>
 
-      <div className="watermark">
-        <img src="/watermark3.png" alt="Watermark" />
-        <img src="/robot.gif" className="robot-gif" alt="Robot Animation" />
+      <div class="watermark">
+      <img src="/watermark3.png" alt="Watermark" />
+      <img src="/robot.gif" className="robot-gif" alt="Robot Animation" />
+    </div>
+
+    <div className="watermark2">
+        <img src="/ratatat_mark.png" alt="Watermark2" />
+        <img src="/ape.gif" className="ape-gif" alt="Ape Animation" />
       </div>
     </main>
   );

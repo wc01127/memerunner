@@ -350,6 +350,9 @@ export default function Home() {
       ))}
     </div>
     </div>
+    <div className="graveyard-button-container">
+        <Link href="/graveyard" className="grave-button font-cyberpunk">Graveyard</Link>
+      </div>
     <video id="background-video" autoPlay loop muted>
         <source src="/memerunner_background.mp4" type="video/mp4"></source>
     </video> 

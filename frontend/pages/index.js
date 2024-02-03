@@ -15,6 +15,7 @@ export default function Home() {
   const sortOptions = [
     { value: 'market_cap', label: 'Market Cap' },
     { value: 'fully_diluted_valuation', label: 'FDV' },
+    { value: 'price_change_percentage_24h', label: '1 Day Change' },
     { value: 'price_change_percentage_7d', label: '1 Week Change' },
     { value: 'price_change_percentage_14d', label: '2 Week Change' },
     { value: 'price_change_percentage_30d', label: '1 Month Change' },
@@ -284,7 +285,7 @@ export default function Home() {
             Connect Wallet
         </button>
 
-        <h1 className="neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Meme Runner</h1>
+        <h1 className="neon-title-main text-6xl font-bold font-cyberpunk">Meme Runner</h1>
         <div>
         <button
             onClick={isConnected ? disconnectWallet : connectWallet}
@@ -340,7 +341,7 @@ export default function Home() {
             <img src={coin.image} alt={coin.symbol.toUpperCase()} className="coin-image" />
           </div>
           <div className="coin-name neon-title font-cyberpunk">{coin.symbol.toUpperCase()}</div>
-          <div className="coin-value neon-title font-cyberpunk" style={{ fontSize: 'smaller' }}>
+          <div className="coin-value neon-value font-cyberpunk">
             {formatValue(coin[selectedSortOption.value], selectedSortOption.value)}
           </div>
         </div>

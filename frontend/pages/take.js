@@ -78,7 +78,7 @@ export default function YourPageName() {
       </Link>
 
       <div className="graveyard-button-container">
-        <Link href="/graveyard" className="grave-button font-cyberpunk">GRAVES</Link>
+        <Link href="/graveyard" className="grave-button font-cyberpunk">G R A V E S</Link>
       </div>    
 
       <div class="watermark">

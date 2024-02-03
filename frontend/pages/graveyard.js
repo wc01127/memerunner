@@ -137,7 +137,7 @@ export default function YourPageName() {
       </div>
 
       <div className="graveyard-button-container">
-        <Link href="/" className="grave-button font-cyberpunk">HOME</Link>
+        <Link href="/" className="grave-button font-cyberpunk">H O M E</Link>
       </div>
 
       <div class="watermark">

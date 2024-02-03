@@ -278,6 +278,8 @@ export default function Home() {
       </button>
       </Link>
 
+      
+
       {/* Title and button container */}
       <div className="title-button-container w-full">
         {/* Invisible spacer with the same dimensions as the button */}
@@ -350,7 +352,7 @@ export default function Home() {
     </div>
     
     <div className="graveyard-button-container">
-        <Link href="/graveyard" className="grave-button font-cyberpunk">GRAVES</Link>
+        <Link href="/graveyard" className="grave-button font-cyberpunk">G R A V E S</Link>
       </div>
     <video id="background-video" autoPlay loop muted>
         <source src="/memerunner_background.mp4" type="video/mp4"></source>

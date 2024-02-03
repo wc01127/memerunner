@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Container } from 'postcss';
 
 export default function YourPageName() {
   const [isConnected, setIsConnected] = useState(false);
@@ -66,9 +67,9 @@ export default function YourPageName() {
       </div>
 
       <Link href="/">
-        <button className="button-make font-cyberpunk">
-          H<br/>O<br/>M<br/>E
-        </button>
+      <button className="button-make font-cyberpunk">
+        H<br/>O<br/>M<br/>E
+      </button>
       </Link>
 
       <Link href="/take">
@@ -78,7 +79,7 @@ export default function YourPageName() {
       </Link>
 
       <div className="graveyard-button-container">
-        <Link href="/graveyard" className="grave-button font-cyberpunk">GRAVES</Link>
+        <Link href="/graveyard" className="grave-button font-cyberpunk">G R A V E S</Link>
       </div>
 
       <div class="watermark">

@@ -272,7 +272,7 @@ if server:
     @app.route('/api/graveyard_coingecko_data', methods=['GET'])
     def get_graveyard_coingecko_data():
         #print("Checking if data needs update...")
-        if data_needs_update('main'):
+        if data_needs_update('grave'):
             print("Data needs update. Fetching new data...")
             params = {
                     'vs_currency': 'USD',
@@ -303,9 +303,12 @@ if server:
             save_data(df_enriched.to_dict(orient='records'), 'grave')
         else:
             print("Loading data from file...")
-            df_enriched = load_data('grave')['data']
-            # Convert the data to a DataFrame before returning
-            df_enriched = pd.DataFrame(df_enriched)
+            loaded_data = load_data('grave')
+            if loaded_data and 'data' in loaded_data:
+                df_enriched = pd.DataFrame(loaded_data['data'])
+            else:
+                print("No graveyard data available.")
+                return jsonify({"error": "No graveyard data available"}), 404
 
         print("Returning data...")
         # Convert DataFrame to a list of dictionaries for JSON serialization

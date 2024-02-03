@@ -41,6 +41,49 @@ export default function YourPageName() {
     return () => newAudio.pause();
   }, []);
 
+  const [coins, setCoins] = useState([]);
+
+  useEffect(() => {
+    fetch('https://meme-runner-server-1c735c2018ad.herokuapp.com/api/graveyard_coingecko_data')
+        .then(response => response.json())
+        .then(data => {
+            const filteredAndSortedCoins = data
+                .filter(coin => 
+                    coin.market_cap_24h > 0 ||
+                    coin.market_cap_7d > 0 ||
+                    coin.market_cap_14d > 0 ||
+                    coin.market_cap_30d > 0 ||
+                    coin.market_cap_60d > 0
+                )
+                .sort((a, b) => {
+                    const timeA = getTimeValue(a);
+                    const timeB = getTimeValue(b);
+                    return timeA - timeB;
+                });
+            setCoins(filteredAndSortedCoins);
+        })
+        .catch(error => console.error('Error fetching graveyard data:', error));
+}, []);
+
+    const getTimeValue = (coin) => {
+        if (coin.market_cap_24h > 0) return 1;
+        if (coin.market_cap_7d > 0) return 2;
+        if (coin.market_cap_14d > 0) return 3;
+        if (coin.market_cap_30d > 0) return 4;
+        if (coin.market_cap_60d > 0) return 5;
+        return 6; // Should not reach here if filtered correctly
+    };
+
+    const getBurialTimeText = (coin) => {
+        if (coin.market_cap_24h > 0) return "Died 1 Day Ago";
+        if (coin.market_cap_7d > 0) return "Died 1 Week Ago";
+        if (coin.market_cap_14d > 0) return "Died 2 Weeks Ago";
+        if (coin.market_cap_30d > 0) return "Died 1 Month Ago";
+        if (coin.market_cap_60d > 0) return "Died 2 Months Ago";
+        return ""; // Fallback, should not reach here if filtered correctly
+    };
+
+
   return (
     <main className="main-background flex min-h-screen flex-col items-center justify-center p-2.5 bg-no-repeat bg-cover bg-center relative"
     >
@@ -65,6 +108,7 @@ export default function YourPageName() {
           </div>
         )}
       </div>
+
       
       <Link href="/make">
         <button className="button-make font-cyberpunk">
@@ -77,6 +121,20 @@ export default function YourPageName() {
         T<br/>A<br/>K<br/>E
       </button>
       </Link>
+
+      <div className="coins-section">
+        <div className="coins-container">
+          {coins.map((coin, index) => (
+            <div key={index} className="coin">
+              <div className="coin-image-container">
+                <img src={coin.image} alt={coin.symbol.toUpperCase()} className="coin-image graveyard-coin-image" />
+              </div>
+              <div className="coin-name neon-title font-cyberpunk">{coin.symbol.toUpperCase()}</div>
+              <div className="coin-value grave-value font-cyberpunk">{getBurialTimeText(coin)}</div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <div className="graveyard-button-container">
         <Link href="/" className="grave-button font-cyberpunk">HOME</Link>

@@ -195,17 +195,17 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center; /* Keep coins centered */
-  gap: 6px; /* Adjust based on your layout */
-  flex-basis: 20%; /* Adjust if necessary but might not be needed */
+  gap: 4px; /* Adjust based on your layout */
+  flex-basis: 15%; /* Adjust if necessary but might not be needed */
   max-width: 75%; 
-  padding: 5px; /* Add some padding around the coins */
-  border-radius: 10px; /* Optional: adds rounded corners */
+  padding: 4px; /* Add some padding around the coins */
+  border-radius: 8px; /* Optional: adds rounded corners */
   background-color: rgba(211, 211, 211, 0.45); 
 }
 
 .coin-image-container {
-  width: 92px; /* Diameter of the circle */
-  height: 92px; /* Diameter of the circle */
+  width: 100px; /* Diameter of the circle */
+  height: 100px; /* Diameter of the circle */
   border-radius: 50%; /* Makes it a circle */
   overflow: hidden; /* Hides the overflow to maintain the circle shape */
   display: flex;
@@ -250,7 +250,7 @@ body {
 
 
 .coin-name {
-  width: 92px; /* Match the width of the image */
+  width: 100px; /* Match the width of the image */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -259,7 +259,7 @@ body {
 }
 
 .coin-name:hover {
-  width: 92px; /* Match the width of the image */
+  width: 100px; /* Match the width of the image */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -454,4 +454,22 @@ body {
   margin-top: 50px; /* Adjust the space above the button */
   bottom: 2%; /* Distance from the bottom */
   width: 20%;
+}
+
+.graveyard-coin-image {
+  filter: grayscale(50%) brightness(75%);
+  transition: filter 0.3s ease;
+}
+
+.graveyard-coin-image:hover {
+  filter: grayscale(25%) brightness(90%);
+}
+
+.grave-value {
+  color: #ffa4a8;
+  opacity: 0.9;
+  text-shadow:
+    0 0 1px rgba(255,164,168, 0.7), /* Slightly transparent */
+    0 0 2px rgba(255,164,168, 0.5),
+    0 0 4px rgba(255,164,168, 0.4);
 }

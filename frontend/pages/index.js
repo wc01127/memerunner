@@ -348,6 +348,7 @@ export default function Home() {
       ))}
     </div>
     </div>
+    
     <div className="graveyard-button-container">
         <Link href="/graveyard" className="grave-button font-cyberpunk">GRAVES</Link>
       </div>

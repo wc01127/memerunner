@@ -116,15 +116,15 @@ body {
   text-align: center; /* Center align the title */
   margin: 0 auto; /* Center the title block if needed */
   display: block;
-  opacity: 0.92;
+  opacity: 0.96;
 }
 .neon-title-main:hover {
-  font-size: 2em; /* Adjust the size as needed */
+  font-size: 2.01em; /* Adjust the size as needed */
   text-align: center; /* Center align the title */
   margin: 0 auto; /* Center the title block if needed */
   display: block;
-  opacity: 0.95;
-  filter: brightness(110%) contrast(120%);
+  opacity: 0.98;
+  filter: brightness(130%) contrast(130%);
 }
 
 /* Neon glow effect for the title */
@@ -749,15 +749,6 @@ body {
   transition: filter 0.3s ease;
 }
 
-.special-cursor {
-  cursor: url('/cursorape.png'), auto; /* Path to your special cursor image */
-}
-
-.special-cursor:hover {
-  filter: brightness(1.2) drop-shadow(0 0 10px #FEFF05); /* Glow effect */
-  transition: filter 0.3s ease;
-}
-
 .ape-container:hover {
   cursor: url('/special-cursor.png'), auto;
 }
@@ -766,4 +757,14 @@ body {
   filter: brightness(1.2) drop-shadow(0 0 10px #FEFF05); /* Glow effect */
   transform: scale(1.1); /* Slight increase in size */
   transition: filter 0.3s ease, transform 0.3s ease; /* Smooth transition */
+}
+
+.title-background {
+  display: inline-block; /* or 'block' depending on your layout */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  border-radius: 8px; /* Adjust as needed for rounded corners */
+  padding: 5px; /* Adjust padding to control the space around the text */
+  color: #FEFF05; /* Example text color, adjust as needed */
+  margin: 0 auto; /* Center the title if needed */
+  text-align: center; /* Center text within the background */
 }

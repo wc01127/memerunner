@@ -141,7 +141,7 @@ export default function Dancehall() {
         <button className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk invisible-spacer">
           Connect Wallet
         </button>
-        <h1 className="neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Speakeasy</h1>
+        <h1 className="title-background neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Speakeasy</h1>
         <button
           onClick={isConnected ? disconnectWallet : connectWallet}
           className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk"

@@ -288,7 +288,7 @@ export default function Home() {
             Connect Wallet
         </button>
 
-        <h1 className="neon-title-main text-6xl font-bold font-cyberpunk">Meme Runner</h1>
+        <h1 className="title-background neon-title-main text-6xl font-bold font-cyberpunk">Meme Runner</h1>
         <div>
         <button
             onClick={isConnected ? disconnectWallet : connectWallet}

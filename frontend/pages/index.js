@@ -262,6 +262,7 @@ export default function Home() {
 
   return (
     <main className="main-background flex min-h-screen flex-col items-center justify-start p-2.5 bg-no-repeat bg-cover bg-center relative">
+
       <img src="/ufo1.gif" className="ufo ufo1" />
       <img src="/ufo2.gif" className="ufo ufo2" />
       <img src="/bomb.gif" className="bomb bomb1" />
@@ -364,10 +365,11 @@ export default function Home() {
     </div>
 
     <div className="watermark2">
-        <img src="/ratatat_mark2.png" alt="Watermark2" />
-        <img src="/ape.gif" className="ape-gif" alt="Ape Animation" />
-      </div>
+          <img src="/ratatat_mark2.png" alt="Watermark2" />
+          <Link href="/dancehall">
+            <img src="/ape.gif" className="ape-gif" alt="Ape Animation" />
+          </Link>
+        </div>
     
-  </main>
-  );}
+  </main>);}
 

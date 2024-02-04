@@ -88,9 +88,11 @@ export default function YourPageName() {
     </div>
 
     <div className="watermark2">
-        <img src="/ratatat_mark2.png" alt="Watermark2" />
-        <img src="/ape.gif" className="ape-gif" alt="Ape Animation" />
-      </div>
+          <img src="/ratatat_mark2.png" alt="Watermark2" />
+          <Link href="/dancehall">
+            <img src="/ape.gif" className="ape-gif" alt="Ape Animation" />
+          </Link>
+        </div>
     </main>
   );
 }

@@ -4,7 +4,7 @@
 @tailwind utilities;
 
 .button-connect-wallet {
-  width: 6em;
+  width: 8em;
   padding: 0.1em 0.4em;
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
   color: #FEFF05; /* Cyberpunk Yellow text */
@@ -351,20 +351,20 @@ body {
 .watermark2 {
   position: fixed; /* Fixed position relative to the viewport */
   bottom: 0%; /* Distance from the bottom */
-  left: 1%; /* Distance from the left, changed from right to left */
+  left: 0%; /* Distance from the left, changed from right to left */
   width: 160px; /* Adjust the width as needed */
   height: auto; /* Maintain aspect ratio */
   z-index: 1000; /* Ensure it's above other elements */
   filter: brightness(98%) contrast(120%);
   opacity: 0.87; /* Adjust opacity as needed */
-  display: flex; /* Use flexbox to center child elements */
-  justify-content: center; /* Center horizontally */
-  align-items: end; /* Align at the bottom */
+  display: middle; /* Use flexbox to center child elements */
+  justify-content: right; /* Center horizontally */
+  align-items: right; /* Align at the bottom */
 }
 
 .watermark2:hover {
   position: fixed; /* Fixed position relative to the viewport */
-  bottom: 1%; /* Distance from the bottom */
+  bottom: 0%; /* Distance from the bottom */
   left: 0%; /* Distance from the left, changed from right to left */
   width: 240px; /* Adjust the width as needed */
   filter: brightness(100%) contrast(140%);
@@ -376,8 +376,9 @@ body {
 
 .ape-gif {
   position: absolute;
-  bottom: 89%; /* Place the bottom of the robot at the top of the watermark */
-  width: 4.2em; /* Adjust size as needed */
+  bottom: 90%; /* Place the bottom of the robot at the top of the watermark */
+  left: 28%;
+  width: 4.5em; /* Adjust size as needed */
   height: auto;
 }
 
@@ -435,7 +436,7 @@ body {
   margin-bottom: 0.5em; /* Space between the selector and the coins */
   margin-left: 10%;
   align-self: flex-start; /* Align the dropdown selector */
-  width: 5em; 
+  width: 10%; 
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent grey */
   border-radius: 10px; /* Rounded corners for the container */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow for depth */
@@ -501,4 +502,268 @@ body {
     0 0 1px rgba(255,164,168, 0.7), /* Slightly transparent */
     0 0 2px rgba(255,164,168, 0.5),
     0 0 4px rgba(255,164,168, 0.4);
+}
+
+
+:root {
+  --scale-factor: 1; /* Default scale factor */
+  --spotlight-size-base: 100px; /* Base size of the spotlight */
+
+}
+
+@media (max-width: 768px) {
+  .spotlight, .dogedance .spotlight {
+    width: calc(var(--spotlight-size-base) * 0.75); /* Scale down the size for medium screens */
+    height: calc(var(--spotlight-size-base) * 0.75); /* Scale down the size for medium screens */
+  }
+  :root {
+    --scale-factor: 0.75; /* Scale down to 75% on medium screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .spotlight, .dogedance .spotlight {
+    width: calc(var(--spotlight-size-base) * 0.5); /* Scale down the size for small screens */
+    height: calc(var(--spotlight-size-base) * 0.5); /* Scale down the size for small screens */
+  }
+  :root {
+    --scale-factor: 0.5; /* Scale down to 50% on small screens */
+  }
+}
+
+.dancehall {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.dancehall-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.gifs-container {
+  position: absolute;
+  left: 25%; /* Start of the dance floor */
+  right: 25%; /* End of the dance floor */
+  bottom: 10%; /* Bottom of the dance floor */
+  top: 70%; /* Top of the dance floor */
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-end;
+  justify-content: space-around;
+}
+
+.gif {
+  position: absolute;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gif:hover {
+  transform: scale(1.15); /* Increase size */
+  filter: brightness(1.25) contrast(1.2); /* Make it brighter */
+}
+
+.spotlight {
+  position: absolute;
+  bottom: 0; /* Start below the GIF */
+  left: 50%;
+  transform: translateX(-50%) translateY(40%);
+  width: var(--spotlight-size-base);
+  height: var(--spotlight-size-base);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25); /* Semi-transparent white for the spotlight effect */
+  z-index: -1; /* Ensure it's under the GIF */
+  transition: width 0.3s ease, height 0.3s ease; /* Smooth transition for resizing */
+}
+
+.special-spotlight {
+  bottom: -20%; /* Adjust for dogedance.gif to move the spotlight lower */
+}
+
+.dogedance .spotlight {
+  bottom: -30%; /* Lower the spotlight for the dogedance.gif */
+  transform: translateX(-50%) translateY(50%); /* Adjust specifically for dogedance.gif */
+}
+
+.home-button-container {
+  position: fixed;
+  left: 50%;
+  bottom: 3%;
+  transform: translateX(-50%);
+  z-index: 100; /* Adjust as needed to ensure it's above other elements */
+}
+
+.home-button {
+  padding: 6px 12px;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  color: #FEFF05; /* Cyberpunk Yellow text */
+  border: 2px solid #FEFF05; /* Cyberpunk Yellow border */
+  font-weight: bold;
+  opacity: 0.95;
+  left: 0;
+  right: 0;
+  bottom: 0%; /* Adjust this value as needed to move the button lower */ 
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s, border 0.3s;
+  text-align: center;
+  display: inline-block; /* Ensures the link behaves like a button */
+}
+
+.home-button:hover {
+  background-color: #FEFF05; /* Cyberpunk Yellow background on hover */
+  color: #000000; /* Text color on hover */
+  border-color: transparent; /* Border color on hover */
+}
+
+.song-selector-container {
+  position: fixed;
+  left: 10%;
+  top: 40%;
+  width: 20%;
+  transform: translateY(-50%);
+  z-index: 100;
+  align-self: flex-start; /* Align the dropdown selector */
+  width: 20%; 
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent grey */
+  border-radius: 10px; /* Rounded corners for the container */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow for depth */
+}
+
+.song-selector {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #FEFF05; /* Cyberpunk Yellow */
+  border: 1px solid #FEFF05; /* Cyberpunk Yellow border */
+  font-family: 'Orbitron', sans-serif;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0.95;
+}
+
+.song-selector:hover {
+  filter: brightness(1.2);
+}
+/* globals.css */
+.elonGif {
+  position: fixed;
+  bottom: 0;
+  width: 15%; /* Adjust based on your preference */
+  height: 10%; /* Example height */
+  z-index: 1; /* Adjust based on layering needs */
+}
+.filledZoomGif {
+  position: fixed;
+  bottom: 0;
+  width: 12%; /* Adjust based on your preference */
+  height: 12%; /* Example height */
+  z-index: 1; /* Adjust based on layering needs */
+}
+.pepeImage {
+  position: fixed;
+  bottom: 0;
+  width: 11%; /* Adjust based on your preference */
+  height: 11%; /* Example height */
+  z-index: 1; /* Adjust based on layering needs */
+}
+.eggdogImage {
+  position: fixed;
+  bottom: 0;
+  width: 11%; /* Adjust based on your preference */
+  height: 11%; /* Example height */
+  z-index: 1; /* Adjust based on layering needs */
+}
+
+.leftImage {
+  position: fixed;
+  bottom: 0;
+  width: 28%; /* Adjust based on your preference */
+  height: 12%; /* Example height */
+  z-index: 1; /* Adjust based on layering needs */
+}
+
+.rightImage {
+  position: fixed;
+  bottom: 0;
+  width: 20%; /* Adjust based on your preference */
+  height: 13%; /* Example height */
+  z-index: 23; /* Adjust based on layering needs */
+}
+
+.leftImage {
+  left: 10%;
+}
+
+.rightImage {
+  right: 10%;
+  z-index: 3;
+}
+
+.elonGif {
+  right: 20%; /* Position to the left of right.png */
+  z-index: 2;
+}
+
+.filledZoomGif {
+  left: 29%; /* Position to the right of left.png */
+  z-index: 2;
+}
+
+.pepeImage {
+  right: 15%;
+  top: 70%;
+  z-index: 2;
+}
+
+.eggdogImage {
+  left: 15%;
+  top: 70%;
+  z-index: 2;
+}
+
+
+.leftImage:hover, .rightImage:hover, .elonGif:hover, .filledZoomGif:hover, .pepeImage:hover, .eggdogImage:hover {
+  /* Increase size */
+  transform: scale(1.1);
+  transition: transform 0.3s ease, filter 0.3s ease;
+
+  /* Glow effect */
+  filter: drop-shadow(0 0 8px #FEFF05) drop-shadow(0 0 12px #FEFF05);
+  z-index: 10; /* Ensure the hovered element is above others */
+}
+
+/* Ensure the transform origin is the bottom center for a natural growth effect */
+.leftImage, .rightImage, .elonGif, .filledZoomGif, .pepeImage, .eggdogImage {
+  transition: transform 0.3s ease, filter 0.3s ease; /* Smooth transition for transform and filter */
+  transform-origin: bottom center; /* Grow from the bottom */
+}
+
+.ape-gif:hover {
+  filter: brightness(1.2) drop-shadow(0 0 10px #FEFF05); /* Glow effect */
+  transition: filter 0.3s ease;
+}
+
+.special-cursor {
+  cursor: url('/cursorape.png'), auto; /* Path to your special cursor image */
+}
+
+.special-cursor:hover {
+  filter: brightness(1.2) drop-shadow(0 0 10px #FEFF05); /* Glow effect */
+  transition: filter 0.3s ease;
+}
+
+.ape-container:hover {
+  cursor: url('/special-cursor.png'), auto;
+}
+
+.ape-container:hover .ape-gif {
+  filter: brightness(1.2) drop-shadow(0 0 10px #FEFF05); /* Glow effect */
+  transform: scale(1.1); /* Slight increase in size */
+  transition: filter 0.3s ease, transform 0.3s ease; /* Smooth transition */
 }

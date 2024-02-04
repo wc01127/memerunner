@@ -38,7 +38,7 @@ export default function Home() {
       return `${formatNumber(value)}%`; // Format as percentage
     } else if (option === 'market_cap' || option === 'fully_diluted_valuation') {
       // Format as currency
-      const units = ['Tr', 'B', 'M', 'Th'];
+      const units = ['Tr', 'B', 'M', 'K'];
       const amounts = [1e12, 1e9, 1e6, 1e3];
       for (let i = 0; i < amounts.length; i++) {
         if (value >= amounts[i]) {
@@ -47,8 +47,8 @@ export default function Home() {
       }
       return `$${formatNumber(value)}`; // Fallback for values less than 1000
     } else if (option === 'coingecko_watchers') {
-      // Format large numbers with T, B, M, or Th
-      const units = ['T', 'B', 'M', 'Th'];
+      // Format large numbers with T, B, M, or K
+      const units = ['T', 'B', 'M', 'K'];
       const amounts = [1e12, 1e9, 1e6, 1e3];
       for (let i = 0; i < amounts.length; i++) {
         if (value >= amounts[i]) {

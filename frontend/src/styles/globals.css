@@ -220,6 +220,7 @@ body {
   gap: 0.1em; /* Adjust based on your layout */
   flex-basis: 15%; /* Adjust if necessary but might not be needed */
   max-width: 80%; 
+  position: relative;
   padding: 0.2em; /* Add some padding around the coins */
   border-radius: 8px; /* Optional: adds rounded corners */
   background-color: rgba(211, 211, 211, 0.45);
@@ -253,11 +254,22 @@ body {
   filter: brightness(105%) contrast(145%);
 }
 
+.gif-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cover the coin image */
+}
 
 .coin {
   width: 6em;
   height: 9em;
+  display: flex;
+  flex-direction: column;
   margin: 0.1em;
+  align-items: center;
   text-align: center;
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent grey */
   border-radius: 8px; /* Optional: for rounded corners */
@@ -436,7 +448,7 @@ body {
   margin-bottom: 0.5em; /* Space between the selector and the coins */
   margin-left: 10%;
   align-self: flex-start; /* Align the dropdown selector */
-  width: 10%; 
+  width: 15%; 
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent grey */
   border-radius: 10px; /* Rounded corners for the container */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow for depth */

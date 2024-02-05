@@ -17,16 +17,28 @@ export default function Dancehall() {
   useEffect(() => {
     // Initialize audio on component mount
     const newAudio = new Audio(initialSong.value);
-    newAudio.loop = true;
-    newAudio.volume = 0.1;
+    newAudio.volume = 0.2;
     setAudio(newAudio);
-
+  
+    // Play the initial song
+    newAudio.play().catch((error) => console.error('Error playing audio:', error));
+  
+    // Event listener for when the song ends
+    const handleSongEnd = () => {
+      const currentIndex = songOptions.findIndex(option => option.value === currentSong.value);
+      const nextIndex = (currentIndex + 1) % songOptions.length; // Loop back to the first song if at the end
+      setCurrentSong(songOptions[nextIndex]);
+    };
+  
+    newAudio.addEventListener('ended', handleSongEnd);
+  
     // Cleanup on component unmount
     return () => {
       newAudio.pause();
+      newAudio.removeEventListener('ended', handleSongEnd);
     };
-  }, []);
-
+  }, []); // This effect should only run once on mount
+  
   useEffect(() => {
     // Ensure audio is not null and update the song when the selection changes
     if (audio) {
@@ -39,13 +51,15 @@ export default function Dancehall() {
           console.error('Error playing audio:', error);
         }
       };
-
+  
       changeSong();
     }
   }, [currentSong, audio]);
 
   const songOptions = [
     { value: '/NightclubAmnesia.mp3', label: 'Nightclub Amnesia - Ratatat' },
+    { value: '/PartyWithChildren.mp3', label: 'Party with Children - Ratatat' },
+    { value: '/Neckbrace.mp3', label: 'Neckbrace - Ratatat' },
     { value: '/One.mp3', label: 'One - Ratatat' },
     { value: '/Shempi.mp3', label: 'Shempi - Ratatat' },
   ];

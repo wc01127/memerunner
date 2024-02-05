@@ -4,6 +4,5 @@
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
   "/dancehall": "pages/dancehall.js",
-  "/graveyard": "pages/graveyard.js",
-  "/make": "pages/make.js"
+  "/graveyard": "pages/graveyard.js"
 }

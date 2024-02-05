@@ -75,11 +75,11 @@ export default function YourPageName() {
     };
 
     const getBurialTimeText = (coin) => {
-        if (coin.market_cap_24h > 0) return "Died 1 Day Ago";
-        if (coin.market_cap_7d > 0) return "Died 1 Week Ago";
-        if (coin.market_cap_14d > 0) return "Died 2 Weeks Ago";
-        if (coin.market_cap_30d > 0) return "Died 1 Month Ago";
-        if (coin.market_cap_60d > 0) return "Died 2 Months Ago";
+        if (coin.market_cap_24h > 0) return "Dead 1 Day";
+        if (coin.market_cap_7d > 0) return "Dead 1 Week";
+        if (coin.market_cap_14d > 0) return "Dead 2 Weeks";
+        if (coin.market_cap_30d > 0) return "Dead 1 Month";
+        if (coin.market_cap_60d > 0) return "Dead 2 Months";
         return ""; // Fallback, should not reach here if filtered correctly
     };
 

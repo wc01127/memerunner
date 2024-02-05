@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import ReactSelect from 'react-select';
+import Image from 'next/image'; // Make sure to import Image from 'next/image'
+
 
 export default function Home() {
   const [isConnected, setIsConnected] = useState(false);
@@ -67,12 +69,12 @@ export default function Home() {
       borderColor: '#FEFF05',
       color: state.isFocused ? '#000000' : '#FEFF05',
       fontFamily: 'Orbitron',
-      opacity: 0.95, // Set the opacity to 95%
+      opacity: 0.9, // Set the opacity to 95%
       ':hover': {
         ...provided[':hover'],
-        opacity: 0.95, // Set the opacity to 95%
+        opacity: 0.9, // Set the opacity to 95%
         backgroundColor: '#FEFF05',
-        opacity: 0.95, // Set the opacity to 95%
+        opacity: 0.9, // Set the opacity to 95%
         color: '#000000',
       },
     }),
@@ -80,25 +82,25 @@ export default function Home() {
       ...provided,
       backgroundColor: '#FEFF05',
       fontFamily: 'Orbitron',
-      opacity: 0.95, // Set the opacity to 95%
+      opacity: 0.9, // Set the opacity to 95%
       color: '#000000',
     }),
     option: (provided, state) => ({
       ...provided,
       backgroundColor: state.isSelected || state.isFocused ? '#FEFF05' : 'transparent',
       color: '#000000',
-      opacity: 0.95, // Set the opacity to 95%
+      opacity: 0.9, // Set the opacity to 95%
       fontFamily: 'Orbitron',
       ':hover': {
         backgroundColor: '#FEFF05',
-        opacity: 0.95, // Set the opacity to 95%
+        opacity: 0.9, // Set the opacity to 95%
         color: '#000000',
       },
     }),
     singleValue: (provided, state) => ({
       ...provided,
       fontFamily: 'Orbitron',
-      opacity: 0.95, // Set the opacity to 95%
+      opacity: 0.9, // Set the opacity to 95%
       color: state.selectProps.menuIsOpen ? '#000000' : '#FEFF05',
     }),
     // ... other parts you want to style
@@ -260,6 +262,22 @@ export default function Home() {
     setCoins(newSortedCoins);
   };
 
+  const [firstCoinPosition, setFirstCoinPosition] = useState({ top: 0, left: 0 });
+  const [lastCoinPosition, setLastCoinPosition] = useState({ top: 0, left: 0 });
+
+  useEffect(() => {
+    if (coins.length > 0) {
+      const firstCoinElement = document.querySelector('.coin:first-child');
+      const lastCoinElement = document.querySelector('.coin:last-child');
+      if (firstCoinElement && lastCoinElement) {
+        const firstCoinRect = firstCoinElement.getBoundingClientRect();
+        const lastCoinRect = lastCoinElement.getBoundingClientRect();
+        setFirstCoinPosition({ top: firstCoinRect.top, left: firstCoinRect.left -10}); // Adjust 50 as needed
+        setLastCoinPosition({ top: lastCoinRect.top, left: lastCoinRect.right - 35}); // Adjust 10 as needed
+      }
+    }
+  }, [coins]); // Depend on coins
+  
   return (
     <main className="main-background flex min-h-screen flex-col items-center justify-start p-2.5 bg-no-repeat bg-cover bg-center relative">
 
@@ -324,22 +342,26 @@ export default function Home() {
               network.
           </div>
       )}
-
-<div className="coins-section">
-  <div className="selector-container">
-    <ReactSelect
-      options={sortOptions}
-      styles={customStyles}
-      value={selectedSortOption}
-      onChange={handleSortChange}
-      className="custom-react-select-container"
-      classNamePrefix="custom-react-select"
-    />
-  </div>
-    <div className="coins-container">
-
+  <div className="coins-section">
+    {selectedSortOption && ['price_change_percentage_24h', 'price_change_percentage_7d', 'price_change_percentage_14d', 'price_change_percentage_30d', 'price_change_percentage_60d'].includes(selectedSortOption.value) && (
+      <>
+        <img src="/diamond.gif" alt="Diamond" style={{ position: 'absolute', top: firstCoinPosition.top + 'px', left: firstCoinPosition.left + 'px', zIndex: 2, width: '50px', height: '50px', opacity: 0.82 }} />
+        <img src="/frown.gif" alt="Frown" style={{ position: 'absolute', top: lastCoinPosition.top + 'px', left: lastCoinPosition.left + 'px', zIndex: 2, width: '50px', height: '50px', opacity: 0.82 }} />
+      </>
+    )}
+    <div className="selector-container">
+      <ReactSelect
+        options={sortOptions}
+        styles={customStyles}
+        value={selectedSortOption}
+        onChange={handleSortChange}
+        className="custom-react-select-container"
+        classNamePrefix="custom-react-select"
+      />
+    </div>
+    <div className="coins-container" style={{ position: 'relative' }}>
       {coins.map((coin, index) => (
-          <div key={index} className="coin">
+        <div key={index} className="coin">
           <div className="coin-image-container">
             <img src={coin.image} alt={coin.symbol.toUpperCase()} className="coin-image" />
           </div>
@@ -350,7 +372,9 @@ export default function Home() {
         </div>
       ))}
     </div>
-    </div>
+  </div>
+
+
     
     <div className="graveyard-button-container">
         <Link href="/graveyard" className="grave-button font-cyberpunk">G R A V E S</Link>

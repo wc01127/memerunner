@@ -780,3 +780,10 @@ body {
   margin: 0 auto; /* Center the title if needed */
   text-align: center; /* Center text within the background */
 }
+
+.gif-hover-glow:hover {
+  filter: brightness(1.2) contrast(1.2) drop-shadow(0 0 4px white) drop-shadow(0 0 8px white);
+  transform: scale(1.05); /* Slight increase in size */
+
+  transition: filter 0.3s ease;
+}

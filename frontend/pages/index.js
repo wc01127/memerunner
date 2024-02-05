@@ -12,7 +12,9 @@ export default function Home() {
   const [originalCoins, setOriginalCoins] = useState([]); // Store the original list of coins
   const [coins, setCoins] = useState([]); // This will store the filtered and sorted list of coins
   const [selectedSortOption, setSelectedSortOption] = useState(null); // Initialize with null
-
+  const [isDiamondHovered, setIsDiamondHovered] = useState(false);
+  const [isFrownHovered, setIsFrownHovered] = useState(false);
+  
 
   const sortOptions = [
     { value: 'market_cap', label: 'Market Cap' },
@@ -272,8 +274,8 @@ export default function Home() {
       if (firstCoinElement && lastCoinElement) {
         const firstCoinRect = firstCoinElement.getBoundingClientRect();
         const lastCoinRect = lastCoinElement.getBoundingClientRect();
-        setFirstCoinPosition({ top: firstCoinRect.top, left: firstCoinRect.left -10}); // Adjust 50 as needed
-        setLastCoinPosition({ top: lastCoinRect.top, left: lastCoinRect.right - 35}); // Adjust 10 as needed
+        setFirstCoinPosition({ top: firstCoinRect.top, left: firstCoinRect.left +60}); // Adjust 50 as needed
+        setLastCoinPosition({ top: lastCoinRect.top, left: lastCoinRect.right - 40}); // Adjust 10 as needed
       }
     }
   }, [coins]); // Depend on coins
@@ -345,8 +347,38 @@ export default function Home() {
   <div className="coins-section">
     {selectedSortOption && ['price_change_percentage_24h', 'price_change_percentage_7d', 'price_change_percentage_14d', 'price_change_percentage_30d', 'price_change_percentage_60d'].includes(selectedSortOption.value) && (
       <>
-        <img src="/diamond.gif" alt="Diamond" style={{ position: 'absolute', top: firstCoinPosition.top + 'px', left: firstCoinPosition.left + 'px', zIndex: 2, width: '50px', height: '50px', opacity: 0.82 }} />
-        <img src="/frown.gif" alt="Frown" style={{ position: 'absolute', top: lastCoinPosition.top + 'px', left: lastCoinPosition.left + 'px', zIndex: 2, width: '50px', height: '50px', opacity: 0.82 }} />
+        <img
+          src="/diamond.gif"
+          alt="Diamond"
+          className={`gif-hover-glow ${isDiamondHovered ? 'apply-glow-effect-class' : ''}`}
+          style={{
+            position: 'absolute',
+            top: firstCoinPosition.top + 'px',
+            left: firstCoinPosition.left + 'px',
+            zIndex: 2,
+            width: '50px',
+            height: '50px',
+            opacity: 0.87 
+          }}
+          onMouseEnter={() => setIsDiamondHovered(true)}
+          onMouseLeave={() => setIsDiamondHovered(false)}
+        />
+        <img
+          src="/frown.gif"
+          alt="Frown"
+          className={`gif-hover-glow ${isFrownHovered ? 'apply-glow-effect-class' : ''}`}
+          style={{
+            position: 'absolute',
+            top: lastCoinPosition.top + 'px',
+            left: lastCoinPosition.left + 'px',
+            zIndex: 2,
+            width: '50px',
+            height: '50px',
+            opacity: 0.85 
+          }}
+          onMouseEnter={() => setIsFrownHovered(true)}
+          onMouseLeave={() => setIsFrownHovered(false)}
+        />
       </>
     )}
     <div className="selector-container">

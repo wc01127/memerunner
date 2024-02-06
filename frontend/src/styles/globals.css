@@ -3,51 +3,24 @@
 @tailwind components;
 @tailwind utilities;
 
-.button-connect-wallet {
-  width: 8em;
-  padding: 0.1em 0.4em;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  color: #FEFF05; /* Cyberpunk Yellow text */
-  border: 2px solid #FEFF05; /* Cyberpunk Yellow border */
-  font-weight: bold;
-  font-size: 0.7em;
-  opacity: 0.95;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s, border 0.3s, opacity 0.3s;
-}
-
-.button-connect-wallet:hover {
-  background-color: #FEFF05; /* Cyberpunk Yellow background */
-  color: #000000; /* Make text color match the background color for 'transparent' effect */
-  border-color: transparent; /* Optional: make border transparent on hover */
-  opacity: 0.95;
-}
-
-.vertical-button {
-  width: 2em;
-  padding: 0.1em 0.4em;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  color: #FEFF05; /* Cyberpunk Yellow text */
-  border: 2px solid #FEFF05; /* Cyberpunk Yellow border */
-  font-weight: bold;
-  opacity: 0.95;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s, border 0.3s, opacity 0.3s;
-}
-
-.vertical-button:hover {
-  background-color: #FEFF05; /* Cyberpunk Yellow background */
-  color: #000000; /* Make text color match the background color for 'transparent' effect */
-  border-color: transparent; /* Optional: make border transparent on hover */
-  opacity: 0.95;
-}
-
+/* Root variable definitions for easy theme management */
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --scale-factor: 1; /* Default scale factor */
+  --spotlight-size-base: 100px; /* Base size of the spotlight */
+  --title-size-base: 2em; 
+  --cyberpunk-yellow: #FEFF05;
+  --neon-glow: 0 0 1px rgba(254, 255, 5, 0.7),
+               0 0 2px rgba(254, 255, 5, 0.5),
+               0 0 4px rgba(254, 255, 5, 0.4);
+  --neon-value-glow: 0 0 1px rgba(233, 241, 255, 0.7),
+                    0 0 2px rgba(233, 241, 255, 0.5),
+                    0 0 4px rgba(233, 241, 255, 0.4);
 }
 
+/* Dark mode preference */
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
@@ -56,46 +29,52 @@
   }
 }
 
+/* Body styling with Orbitron font */
 body {
   font-family: 'Orbitron', sans-serif;
   background-color: #000000; /* Cyberpunk Black */
-  color: #FEFF05; /* Cyberpunk Yellow */
+  color: var(--cyberpunk-yellow); /* Cyberpunk Yellow */
 }
 
-
+/* Tailwind utility class for balanced text wrapping */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
 
-.ufo {
+/* UFO, bomb, and other animated elements */
+.ufo1, .ufo2, .bomb {
   position: absolute;
-  /* Adjust size as needed */
 }
 
 .ufo1 {
   animation: ufo1Animation 5s linear infinite;
-  width: 7em; /* Adjust size as needed */
+  width: 7rem;
 }
 
 @keyframes ufo1Animation {
-  0% { right: 0%; }
+  0% { right: 0; }
   100% { right: 200%; }
 }
 
 .ufo2 {
-  position: absolute;
-  width: 80px; /* Adjust size as needed */
-  top: 10px; /* Start just off the top of the screen */
-  left: -100px; /* Start off-screen to the left */
-  opacity: 0; /* Initially hidden */
-  animation: none; /* No animation initially */
+  width: 5rem;
+  top: 1rem;
+  left: -10rem;
+  opacity: 0;
+  animation: none;
 }
 
 @keyframes ufo2Animation {
-  0%, 100% { left: -100px; opacity: 0; }
-  25%, 75% { left: 120px; opacity: 1; } /* Adjust as needed */
+  0%, 100% { left: -10rem; opacity: 0; }
+  25%, 75% { left: 12rem; opacity: 1; }
+}
+
+.bomb {
+  animation: bombAnimation 1.7s linear;
+  width: 2.8rem;
+  opacity: 0.8;
 }
 
 @keyframes bombAnimation {
@@ -103,29 +82,295 @@ body {
   50% { opacity: 1; }
 }
 
-.bomb {
-  position: absolute;
-  animation: bombAnimation 1.7s linear;
-  width: 28px; /* Adjust size as needed */
-  opacity: 0.8;
+/* Button styles */
+.button-connect-wallet, .vertical-button, .neon-button {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: var(--cyberpunk-yellow);
+  border: 2px solid var(--cyberpunk-yellow);
+  font-weight: bold;
+  opacity: 0.95;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s, border 0.3s, opacity 0.3s;
+  box-shadow: var(--neon-glow);
+}
+
+.button-connect-wallet:hover, .vertical-button:hover, .neon-button:hover {
+  background-color: var(--cyberpunk-yellow);
+  color: #000000;
+  border-color: transparent;
+}
+
+.vertical-button {
+  width: 2rem;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.7rem;
 }
 
 .neon-title-main {
-  padding-top: 0.2em;
-  font-size: 2em; /* Adjust the size as needed */
-  text-align: center; /* Center align the title */
-  margin: 0 auto; /* Center the title block if needed */
+  padding-top: 0.2rem;
+  font-size: var(--title-size-base);
+  text-align: center;
+  margin: 0 auto;
   display: block;
   opacity: 0.96;
 }
+
 .neon-title-main:hover {
-  font-size: 2.01em; /* Adjust the size as needed */
-  text-align: center; /* Center align the title */
-  margin: 0 auto; /* Center the title block if needed */
-  display: block;
-  opacity: 0.98;
+  font-size: calc(var(--title-size-base) * 1.01);
   filter: brightness(130%) contrast(130%);
 }
+
+.neon-title, .neon-value {
+  text-shadow: var(--neon-glow);
+}
+
+.neon-value {
+  color: #e9f1ff;
+  text-shadow: var(--neon-value-glow);
+}
+
+.title-button-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.invisible-spacer {
+  visibility: hidden;
+}
+
+.main-background {
+  animation: flickerAnimation 8s infinite;
+  display: flex;
+  padding-top: 5rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+@keyframes flickerAnimation {
+  0%, 100% { filter: brightness(97%) contrast(103%); }
+  20% { filter: brightness(99%) contrast(98%); }
+  40% { filter: brightness(95%) contrast(105%); }
+  60% { filter: brightness(99%) contrast(98%); }
+  80% { filter: brightness(95%) contrast(105%); }
+}
+
+.wallet-address {
+  font-size: 0.77rem;
+  color: var(--cyberpunk-yellow);
+}
+
+.coins-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.1rem;
+  max-width: 80%;
+  position: relative;
+  padding: 0.2rem;
+  border-radius: 8px;
+  background-color: rgba(211, 211, 211, 0.45);
+  overflow-y: auto; /* Enables vertical scrolling if content overflows */
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: var(--cyberpunk-yellow) rgba(0, 0, 0, 0.5);
+}
+
+/* For Webkit Browsers like Chrome and Safari */
+.coins-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.coins-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.coins-container::-webkit-scrollbar-thumb {
+  background-color: var(--cyberpunk-yellow);
+  border-radius: 10px;
+  border: 3px solid rgba(0, 0, 0, 0.5);
+}
+
+.coin-image-container {
+  width: 5.8rem;
+  height: 5.8rem;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.coin-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+  opacity: 0.82;
+  filter: brightness(97%) contrast(115%);
+  transition: box-shadow 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.coin-image:hover {
+  box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.6);
+  opacity: 0.99;
+  filter: brightness(105%) contrast(145%);
+}
+
+.coin {
+  width: 6rem;
+  height: 9rem;
+  display: flex;
+  flex-direction: column;
+  margin: 0.1rem;
+  align-items: center;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  padding: 0.1rem;
+}
+
+.coin:hover {
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.coin-name, .coin-value {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.coin-name:hover, .coin-value:hover {
+  opacity: 0.97;
+}
+
+#background-video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  z-index: -1;
+}
+
+.watermark, .watermark2 {
+  position: fixed;
+  width: 160px;
+  height: auto;
+  z-index: 1000;
+  filter: brightness(98%) contrast(120%);
+  opacity: 0.87;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
+
+.watermark:hover, .watermark2:hover {
+  width: 240px;
+  filter: brightness(100%) contrast(140%);
+  opacity: 0.94;
+  transition: 0.5s ease-in-out;
+}
+
+.watermark {
+  bottom: 1%;
+  right: 1%;
+}
+
+.watermark2 {
+  bottom: 0;
+  left: 0;
+}
+
+.ape-gif {
+  position: absolute;
+  bottom: 90%;
+  left: 28%;
+  width: 4.5rem;
+  height: auto;
+}
+
+/* Responsive design adjustments */
+@media screen and (max-width: 768px) {
+  :root {
+    --scale-factor: 0.75;
+    --title-size-base: 1.5em;
+  }
+
+  .button-connect-wallet, .vertical-button {
+    font-size: 0.6rem;
+  }
+
+  .neon-title-main {
+    font-size: calc(var(--title-size-base) * 0.75);
+  }
+
+  .coins-container {
+    gap: 0.075rem;
+  }
+
+  .coin-image-container {
+    width: 4.35rem;
+    height: 4.35rem;
+  }
+
+  .coin {
+    width: 4.5rem;
+    height: 6.75rem;
+  }
+
+  .coin-name, .coin-value {
+    font-size: 0.75rem;
+  }
+
+  .watermark, .watermark2 {
+    width: 120px; /* Adjusted size for medium screens */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  :root {
+    --scale-factor: 0.5;
+    --title-size-base: 1.2em;
+  }
+
+  .button-connect-wallet, .vertical-button {
+    font-size: 0.5rem;
+  }
+
+  .neon-title-main {
+    font-size: calc(var(--title-size-base) * 0.5);
+  }
+
+  .coins-container {
+    gap: 0.05rem;
+  }
+
+  .coin-image-container {
+    width: 2.9rem;
+    height: 2.9rem;
+  }
+
+  .coin {
+    width: 3rem;
+    height: 4.5rem;
+  }
+
+  .coin-name, .coin-value {
+    font-size: 0.6rem;
+  }
+
+  .watermark, .watermark2 {
+    width: 80px; /* Adjusted size for small screens */
+  }
+}
+
+/* Continuing from the last provided styles */
 
 /* Neon glow effect for the title */
 .neon-title {
@@ -144,8 +389,7 @@ body {
     0 0 4px rgba(233,241,255, 0.4);
 }
 
-
-/* Neon glow effect for the button */
+/* Neon glow effect for buttons */
 .neon-button, .vertical-button {
   box-shadow:
     0 0 1px rgba(254, 255, 5, 0.7),
@@ -160,6 +404,7 @@ body {
   opacity: 0.95;
 }
 
+/* Title and button container */
 .title-button-container {
   position: fixed; /* Fixed position at the top */
   top: 0; /* Align to the top of the screen */
@@ -285,7 +530,6 @@ body {
   border-radius: 8px; /* Optional: for rounded corners */
   padding: 0.2em; /* Optional: for some space inside the container */
 }
-
 
 .coin-name {
   width: 6em; /* Match the width of the image */
@@ -516,18 +760,13 @@ body {
     0 0 4px rgba(255,164,168, 0.4);
 }
 
-
-:root {
-  --scale-factor: 1; /* Default scale factor */
-  --spotlight-size-base: 100px; /* Base size of the spotlight */
-
-}
-
+/* Additional responsive design adjustments */
 @media (max-width: 768px) {
   .spotlight, .dogedance .spotlight {
     width: calc(var(--spotlight-size-base) * 0.75); /* Scale down the size for medium screens */
     height: calc(var(--spotlight-size-base) * 0.75); /* Scale down the size for medium screens */
   }
+
   :root {
     --scale-factor: 0.75; /* Scale down to 75% on medium screens */
   }
@@ -543,6 +782,7 @@ body {
   }
 }
 
+/* Styles for dancehall page */
 .dancehall {
   position: relative;
   width: 100%;
@@ -662,102 +902,71 @@ body {
 .song-selector:hover {
   filter: brightness(1.2);
 }
-/* globals.css */
-.elonGif {
+
+/* Styles for specific animated GIFs and images */
+.elonGif, .filledZoomGif, .pepeImage, .eggdogImage, .leftImage, .rightImage {
   position: fixed;
   bottom: 0;
-  width: 15%; /* Adjust based on your preference */
-  height: 10%; /* Example height */
-  z-index: 1; /* Adjust based on layering needs */
-}
-.filledZoomGif {
-  position: fixed;
-  bottom: 0;
-  width: 12%; /* Adjust based on your preference */
-  height: 12%; /* Example height */
-  z-index: 1; /* Adjust based on layering needs */
-}
-.pepeImage {
-  position: fixed;
-  bottom: 0;
-  width: 11%; /* Adjust based on your preference */
-  height: 11%; /* Example height */
-  z-index: 1; /* Adjust based on layering needs */
-}
-.eggdogImage {
-  position: fixed;
-  bottom: 0;
-  width: 11%; /* Adjust based on your preference */
-  height: 11%; /* Example height */
   z-index: 1; /* Adjust based on layering needs */
 }
 
+/* Adjustments for left and right images */
 .leftImage {
-  position: fixed;
-  bottom: 0;
-  width: 28%; /* Adjust based on your preference */
-  height: 12%; /* Example height */
-  z-index: 1; /* Adjust based on layering needs */
-}
-
-.rightImage {
-  position: fixed;
-  bottom: 0;
-  width: 20%; /* Adjust based on your preference */
-  height: 13%; /* Example height */
-  z-index: 23; /* Adjust based on layering needs */
-}
-
-.leftImage {
+  width: 28%;
+  height: 12%;
   left: 10%;
 }
 
 .rightImage {
+  width: 20%;
+  height: 13%;
   right: 10%;
   z-index: 3;
 }
 
+/* Adjustments for specific GIFs and images */
 .elonGif {
+  width: 15%;
+  height: 10%;
   right: 20%; /* Position to the left of right.png */
-  z-index: 2;
 }
 
 .filledZoomGif {
+  width: 12%;
+  height: 12%;
   left: 29%; /* Position to the right of left.png */
-  z-index: 2;
 }
 
 .pepeImage {
+  width: 11%;
+  height: 11%;
   right: 15%;
   top: 70%;
-  z-index: 2;
 }
 
 .eggdogImage {
+  width: 11%;
+  height: 11%;
   left: 15%;
   top: 70%;
-  z-index: 2;
 }
 
-
+/* Hover effects for animated elements */
 .leftImage:hover, .rightImage:hover, .elonGif:hover, .filledZoomGif:hover, .pepeImage:hover, .eggdogImage:hover {
-  /* Increase size */
-  transform: scale(1.1);
+  transform: scale(1.1); /* Increase size */
   transition: transform 0.3s ease, filter 0.3s ease;
-
-  /* Glow effect */
-  filter: drop-shadow(0 0 8px #FEFF05) drop-shadow(0 0 12px #FEFF05);
+  filter: drop-shadow(0 0 8px var(--cyberpunk-yellow)) drop-shadow(0 0 12px var(--cyberpunk-yellow));
   z-index: 10; /* Ensure the hovered element is above others */
 }
 
-/* Ensure the transform origin is the bottom center for a natural growth effect */
+/* Transform origin adjustment for natural growth effect */
 .leftImage, .rightImage, .elonGif, .filledZoomGif, .pepeImage, .eggdogImage {
-  transition: transform 0.3s ease, filter 0.3s ease; /* Smooth transition for transform and filter */
-  transform-origin: bottom center; /* Grow from the bottom */
+  transition: transform 0.3s ease, filter 0.3s ease;
+  transform-origin: bottom center;
 }
 
 .ape-gif:hover {
-  filter: brightness(1.2) drop-shadow(0 0 10px #FEFF05); /* Glow effect */
+  filter: brightness(1.2) drop-shadow(0 0 10px var(--cyberpunk-yellow));
   transition: filter 0.3s ease;
 }
 
@@ -766,24 +975,23 @@ body {
 }
 
 .ape-container:hover .ape-gif {
-  filter: brightness(1.2) drop-shadow(0 0 10px #FEFF05); /* Glow effect */
-  transform: scale(1.1); /* Slight increase in size */
-  transition: filter 0.3s ease, transform 0.3s ease; /* Smooth transition */
+  filter: brightness(1.2) drop-shadow(0 0 10px var(--cyberpunk-yellow));
+  transform: scale(1.1);
+  transition: filter 0.3s ease, transform 0.3s ease;
 }
 
 .title-background {
-  display: inline-block; /* or 'block' depending on your layout */
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-  border-radius: 8px; /* Adjust as needed for rounded corners */
-  padding: 5px; /* Adjust padding to control the space around the text */
-  color: #FEFF05; /* Example text color, adjust as needed */
-  margin: 0 auto; /* Center the title if needed */
-  text-align: center; /* Center text within the background */
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  padding: 5px;
+  color: var(--cyberpunk-yellow);
+  margin: 0 auto;
+  text-align: center;
 }
 
 .gif-hover-glow:hover {
   filter: brightness(1.2) contrast(1.2) drop-shadow(0 0 4px white) drop-shadow(0 0 8px white);
-  transform: scale(1.05); /* Slight increase in size */
-
+  transform: scale(1.05);
   transition: filter 0.3s ease;
 }

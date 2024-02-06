@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 import ReactSelect from 'react-select';
 import Image from 'next/image'; // Make sure to import Image from 'next/image'
 
@@ -282,6 +283,9 @@ export default function Home() {
   
   return (
     <main className="main-background flex min-h-screen flex-col items-center justify-start p-2.5 bg-no-repeat bg-cover bg-center relative">
+      <Head>
+        <title>City Center - Meme Runner</title>
+      </Head>
 
       <img src="/ufo1.gif" className="ufo ufo1" />
       <img src="/ufo2.gif" className="ufo ufo2" />

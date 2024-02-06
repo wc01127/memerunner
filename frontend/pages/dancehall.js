@@ -149,7 +149,7 @@ export default function Dancehall() {
   return (
     <div className="dancehall">
       <Head>
-        <title>Speakeasy</title>
+        <title>Speakeasy - Meme Runner</title>
       </Head>
       <div className="title-button-container w-full">
         <button className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk invisible-spacer">

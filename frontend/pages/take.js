@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 
 export default function YourPageName() {
   const [isConnected, setIsConnected] = useState(false);
@@ -43,6 +44,9 @@ export default function YourPageName() {
 
   return (
     <main className="main-background flex min-h-screen flex-col items-center justify-center p-2.5 bg-no-repeat bg-cover bg-center relative">
+      <Head>
+        <title>Takers Market - Meme Runner</title>
+      </Head>
     <video id="background-video" autoPlay loop muted>
         <source src="/market_background.mp4" type="video/mp4"></source>
     </video> 
@@ -51,7 +55,7 @@ export default function YourPageName() {
       <button className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk invisible-spacer">
             Connect Wallet
         </button>
-        <h1 className="title-background neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Take Market</h1>
+        <h1 className="title-background neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Takers Market</h1>
         <button
           onClick={isConnected ? disconnectWallet : connectWallet}
           className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk"

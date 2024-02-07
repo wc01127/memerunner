@@ -206,6 +206,8 @@ def fetch_and_process_data():
         add_coingecko_columns(df_main, 'main')
         add_coingecko_columns(df_grave, 'grave')
         df_grave = add_market_cap_columns(df_grave, market_cap_threshold)
+        df_main.fillna(0, inplace=True)
+        df_grave.fillna(0, inplace=True)
         save_data_s3(df_grave.to_dict(orient='records'), 'grave')
         save_data_s3(df_main.to_dict(orient='records'), 'main')
     except Exception as e:

@@ -2,9 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/dancehall": "pages/dancehall.js",
-  "/graveyard": "pages/graveyard.js",
   "/": "pages/index.js",
-  "/make": "pages/make.js",
-  "/take": "pages/take.js"
+  "/graveyard": "pages/graveyard.js"
 }

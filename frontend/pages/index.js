@@ -218,7 +218,7 @@ export default function Home() {
 
   useEffect(() => {
     // Fetch coins data from API
-    fetch('https://meme-runner-server-1c735c2018ad.herokuapp.com/api/enriched_coingecko_data')
+    fetch('https://meme-runner-0fde5367bf4b.herokuapp.com/api/enriched_coingecko_data')
       .then(response => response.json())
       .then(data => {
         const cleanedData = data.map(coin => ({

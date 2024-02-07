@@ -45,7 +45,7 @@ export default function YourPageName() {
   const [coins, setCoins] = useState([]);
 
   useEffect(() => {
-    fetch('https://meme-runner-server-1c735c2018ad.herokuapp.com/api/graveyard_coingecko_data')
+    fetch('https://meme-runner-0fde5367bf4b.herokuapp.com/api/graveyard_coingecko_data')
         .then(response => response.json())
         .then(data => {
             const filteredAndSortedCoins = data

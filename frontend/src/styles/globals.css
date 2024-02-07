@@ -19,13 +19,12 @@
                     0 0 2px rgba(233, 241, 255, 0.5),
                     0 0 4px rgba(233, 241, 255, 0.4);
   --button-font-size: 1rem;
-  --watermark-width: 160px; /* Initial width for watermarks */
-  --coin-container-size: 6rem; /* Initial width and height for coin container */
-  --coin-font-size: 1rem; /* Initial font size for coin name and value */
+  --watermark-width: 7rem; /* Initial width for watermarks */
   --title-background-size: 16rem; /* Adjusted for correction */
-  --coin-image-size: var(--coin-container-size); /* Align coin image size with container size */
-  --wallet-button-width: 13rem;
-  --wallet-font-size: 1rem;
+  --wallet-button-width: 9rem;
+  --wallet-font-size: 0.65rem;
+  --grave-button-width: 10rem;
+  --coin-container-height: 30rem;
 }
 
 /* Responsive design adjustments for medium screens (max-width: 768px) */
@@ -34,14 +33,14 @@
     --scale-factor: 0.75;
     --title-size-base: 1.5em;
     --button-font-size: 0.75rem; /* Adjusted for consistency */
-    --watermark-width: 120px; /* Adjusted size for medium screens */
-    --coin-container-size: 4.35rem; /* Adjusted width and height for coin container */
-    --coin-font-size: 0.75rem; /* Adjusted font size for medium screens */
-    --coin-image-size: 4.35rem; /* Adjusted size for coin images */
+    --watermark-width: 6rem; /* Adjusted size for medium screens */
     --title-background-size: 10rem; /* Adjusted for medium screens */
     --wallet-button-width: 7.5rem;
-    --wallet-button-height: 2.5rem;
+    --wallet-button-height: 2.3rem;
     --wallet-font-size: 0.5rem;
+    --grave-button-width: 7rem;
+    --grave-button-font-size: 0.75rem;
+    --coin-container-height: 24rem;
   }
 }
 
@@ -51,14 +50,14 @@
     --scale-factor: 0.5;
     --title-size-base: 1.2em;
     --button-font-size: 0.6rem; /* Adjusted for consistency */
-    --watermark-width: 80px; /* Adjusted size for small screens */
-    --coin-container-size: 3rem; /* Adjusted width and height for coin container */
-    --coin-font-size: 0.6rem; /* Adjusted font size for small screens */
-    --coin-image-size: 3rem; /* Adjusted size for coin images */
+    --watermark-width: 5rem; /* Adjusted size for small screens */
     --title-background-size: 8rem; /* Adjusted for small screens */
     --wallet-button-width: 5rem;
-    --wallet-button-height: 2.5rem;
+    --wallet-button-height: 2.8rem;
     --wallet-font-size: 0.4rem;
+    --grave-button-width: 5.5rem;
+    --grave-button-font-size: 0.55rem;
+    --coin-container-height: 20rem;
   }
 }
 
@@ -230,7 +229,7 @@ body {
   justify-content: center;
   gap: 0.1rem;
   max-width: 80%;
-  max-height: 30rem;
+  max-height: var(--coin-container-height);
   position: relative;
   padding: 0.2rem;
   border-radius: 8px;
@@ -705,6 +704,8 @@ body {
   cursor: pointer;
   text-align: center;
   display: inline-block; /* or 'block' if you prefer */
+  width: var(--grave-button-width);
+  font-size: var(--grave-button-font-size);
 }
 
 .grave-button:hover {

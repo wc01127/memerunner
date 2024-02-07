@@ -1,1 +1,2 @@
-web: gunicorn meme_api_clean:app
+web: python app.py
+clock: python clock.py

@@ -22,7 +22,7 @@ CG_API_KEY2 = 'CG-39fGudHnptWEPKn3wwaXknEy'
 DATA_FILE_PATH_MAIN = 'enriched_data.json'
 DATA_FILE_PATH_GRAVE = 'graveyard_data.json'
 
-UPDATE_INTERVAL = timedelta(hours=6)  # Interval to refresh data
+UPDATE_INTERVAL = timedelta(hours=4)  # Interval to refresh data
 
 def save_data(data, data_type):
     # Convert the dictionary to a DataFrame

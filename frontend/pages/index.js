@@ -15,8 +15,40 @@ export default function Home() {
   const [selectedSortOption, setSelectedSortOption] = useState(null); // Initialize with null
   const [isDiamondHovered, setIsDiamondHovered] = useState(false);
   const [isFrownHovered, setIsFrownHovered] = useState(false);
-  
+  const [selectedGif, setSelectedGif] = useState('cube'); // 'cube' or 'brain'
 
+  const cubeOptions = [
+    { value: 'market_cap', label: 'Market Cap' },
+    { value: 'fully_diluted_valuation', label: 'FDV' },
+    { value: 'price_change_percentage_24h', label: '1 Day Change' },
+    { value: 'price_change_percentage_7d', label: '1 Week Change' },
+    { value: 'price_change_percentage_14d', label: '2 Week Change' },
+    { value: 'price_change_percentage_30d', label: '1 Month Change' },
+    { value: 'price_change_percentage_60d', label: '2 Month Change' },
+    { value: 'ath_change_percentage', label: 'ATH Change' },
+  ];
+  
+  const brainOptions = [
+    { value: 'gdelt_1d', label: '1 Day Media Share' },
+    { value: 'gdelt_7d', label: '1 Week Media Share' },
+    { value: 'gdelt_14d', label: '2 Week Media Share' },
+    { value: 'gdelt_30d', label: '1 Month Media Share' },
+    { value: 'gdelt_60d', label: '2 Month Media Share' },
+    { value: 'coingecko_watchers', label: 'CoinGecko Watchers' },
+  ];
+  
+  // Use state for dynamic sort options
+  const [sortOptions, setSortOptions] = useState(cubeOptions);
+  
+  useEffect(() => {
+    setSortOptions(selectedGif === 'cube' ? cubeOptions : brainOptions);
+    setSelectedSortOption(selectedGif === 'cube' ? cubeOptions[0] : brainOptions[0]);
+  }, [selectedGif]);
+  
+  const handleGifSelection = (gifName) => {
+    setSelectedGif(gifName);
+  };
+/*
   const sortOptions = [
     { value: 'market_cap', label: 'Market Cap' },
     { value: 'fully_diluted_valuation', label: 'FDV' },
@@ -28,7 +60,7 @@ export default function Home() {
     { value: 'ath_change_percentage', label: 'ATH Change' },
     { value: 'coingecko_watchers', label: 'CoinGecko Watchers' },
   ];
-
+*/
   const formatNumber = (num) => {
     if (num === 0) return '0';
     const d = Math.ceil(Math.log10(num < 0 ? -num : num)); // Number of digits
@@ -39,6 +71,9 @@ export default function Home() {
   };
 
   const formatValue = (value, option) => {
+    if (option.startsWith('gdelt')) {
+      return `${value.toFixed(2)}%`; // Format GDELT values as percentages
+    }
     if (option.includes('percentage')) {
       return `${formatNumber(value)}%`; // Format as percentage
     } else if (option === 'market_cap' || option === 'fully_diluted_valuation') {
@@ -244,18 +279,16 @@ export default function Home() {
     // Cleanup function
     return () => newAudio.pause();
   }, []);
-  
   useEffect(() => {
-    // This effect runs when selectedSortOption changes or the originalCoins data changes
     if (selectedSortOption && originalCoins.length > 0) {
       const filteredAndSortedCoins = originalCoins
-        .filter(coin => coin[selectedSortOption.value] !== 0) // Filter out coins with a value of 0 for the selected option
-        .sort((a, b) => b[selectedSortOption.value] - a[selectedSortOption.value]); // Sort coins based on the selected option
-
-      setCoins(filteredAndSortedCoins); // Update the coins state with the filtered and sorted list
+        .filter(coin => coin[selectedSortOption.value] !== 0)
+        .sort((a, b) => b[selectedSortOption.value] - a[selectedSortOption.value]);
+  
+      setCoins(filteredAndSortedCoins);
     }
-  }, [selectedSortOption, originalCoins]); // Depend on selectedSortOption and originalCoins
-
+  }, [selectedSortOption, originalCoins]);
+  
   const handleSortChange = (selectedOption) => {
     setSelectedSortOption(selectedOption);
     // Logic to filter and sort coins based on the selected option
@@ -348,6 +381,48 @@ export default function Home() {
               network.
           </div>
       )}
+  <div className="gif-button-container" style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '20px' }}>
+  <button
+    onClick={() => handleGifSelection('cube')}
+    style={// In your button style
+      {
+        padding: '10px 20px', // Adjust the padding as needed
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        border: selectedGif === 'cube' ? '3px solid #FEFF05' : '1px solid #FEFF05',
+        borderRadius: '10px',
+        boxShadow: selectedGif === 'cube' ? '0 0 8px 2px #FEFF05' : 'none',
+        transition: 'box-shadow 0.3s ease-in-out',
+        cursor: 'pointer',
+      }
+      }
+  >
+    <img src="/cube3.gif" alt="Cube" style={{ width: '50px', height: '50px', opacity:0.85, filter: selectedGif === 'cube' ? 'brightness(110%) contrast(120%)' : 'brightness(100%) contrast(100%)' }} />
+  </button>
+  <button
+    onClick={() => handleGifSelection('brain')}
+    style={// In your button style
+      {
+        padding: '10px 20px', // Adjust the padding as needed
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        border: selectedGif === 'brain' ? '3px solid #FEFF05' : '1px solid #FEFF05',
+        borderRadius: '10px',
+        boxShadow: selectedGif === 'brain' ? '0 0 8px 2px #FEFF05' : 'none',
+        transition: 'box-shadow 0.3s ease-in-out',
+        cursor: 'pointer',
+      }
+      }
+  >
+    <img src="/brain4.gif" alt="Brain" style={{ width: '50px', height: '50px', opacity:0.85, filter: selectedGif === 'brain' ? 'brightness(120%) contrast(120%)' : 'brightness(100%) contrast(100%)'
+}} />
+  </button>
+</div>
+
   <div className="coins-section">
     {selectedSortOption && ['price_change_percentage_24h', 'price_change_percentage_7d', 'price_change_percentage_14d', 'price_change_percentage_30d', 'price_change_percentage_60d'].includes(selectedSortOption.value) && (
       <>

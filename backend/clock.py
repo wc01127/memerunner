@@ -7,13 +7,14 @@ from datetime import datetime, timedelta
 from apscheduler.schedulers.blocking import BlockingScheduler
 from ratelimit import limits, sleep_and_retry
 from coinmarketcapapi import CoinMarketCapAPI, CoinMarketCapAPIError
+from gdeltdoc import GdeltDoc, Filters, multi_repeat
 import logging
 import boto3
 # Other imports...
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(name)s - %(message)s')
-
+gd = GdeltDoc()
 
 # Constants as in your original file
 COINGECKO_API_URL = 'https://api.coingecko.com/api/v3/coins/markets'
@@ -180,6 +181,66 @@ def mature_dataframe(df, data_type):
         print(non_matching_rows)
     return df
 
+def clean_name(name):
+    if '(' in name:
+        name = name.split('(')[0].strip()
+    return ''.join(e for e in name if e.isalnum() or e.isspace())
+
+def get_date_ranges():
+    today = datetime.now()
+    return {
+        '1d': (today - timedelta(days=1)).strftime('%Y-%m-%d'),
+        '7d': (today - timedelta(days=7)).strftime('%Y-%m-%d'),
+        '14d': (today - timedelta(days=14)).strftime('%Y-%m-%d'),
+        '30d': (today - timedelta(days=30)).strftime('%Y-%m-%d'),
+        '60d': (today - timedelta(days=60)).strftime('%Y-%m-%d'),
+    }
+
+
+def do_gdelt(df):
+    date_ranges = get_date_ranges()
+    gdelt_results = []
+    for index, row in df.iterrows():
+        name = clean_name(row['name'])
+        if len(name) == 4:
+            name += " "
+        elif len(name) == 3:
+            name = f" {name} "
+        symbol = row['symbol']
+        counts = []
+        for period, start_date in date_ranges.items():
+            end_date = datetime.now().strftime('%Y-%m-%d')
+            f = Filters(
+                keyword=name,
+                start_date=start_date,
+                end_date=end_date,
+                country="US",
+                repeat=multi_repeat([(2, "crypto"), (2, "meme")], "OR")
+            )
+            articles = gd.article_search(f)
+            counts.append(len(articles))
+        gdelt_results.append({symbol: counts})
+    for result in gdelt_results:
+        if 'meme' in result:
+            result['meme'] = [round(x / 20) for x in result['meme']]
+    totals = [0] * 5
+    for result in gdelt_results:
+        for i, value in enumerate(next(iter(result.values()))):
+            totals[i] += value
+    for result in gdelt_results:
+        symbol = next(iter(result))
+        result[symbol] = [round((x / totals[i]) * 100, 2) if totals[i] else 0 for i, x in enumerate(result[symbol])]
+    gdelt_dict = {list(item.keys())[0]: list(item.values())[0] for item in gdelt_results}
+    time_periods = ['1d', '7d', '14d', '30d', '60d']
+    new_columns = [f'gdelt_{period}' for period in time_periods]
+    for col in new_columns:
+        df[col] = 0
+    for index, row in df.iterrows():
+        symbol = row['symbol']
+        if symbol in gdelt_dict:
+            for i, period in enumerate(time_periods):
+                df.at[index, f'gdelt_{period}'] = gdelt_dict[symbol][i]
+    return df
 
 def fetch_and_process_data():
     # Fetch data
@@ -208,6 +269,9 @@ def fetch_and_process_data():
         df_grave = add_market_cap_columns(df_grave, market_cap_threshold)
         df_main.fillna(0, inplace=True)
         df_grave.fillna(0, inplace=True)
+        df_main = do_gdelt(df_main)
+        #print(df_main)
+        #df_main.to_csv('testgdelt.csv')
         save_data_s3(df_grave.to_dict(orient='records'), 'grave')
         save_data_s3(df_main.to_dict(orient='records'), 'main')
     except Exception as e:
@@ -215,6 +279,6 @@ def fetch_and_process_data():
    
 if __name__ == '__main__':
     scheduler = BlockingScheduler()
-    scheduler.add_job(fetch_and_process_data, 'interval', hours=2, next_run_time=datetime.now())
+    scheduler.add_job(fetch_and_process_data, 'interval', hours=3, next_run_time=datetime.now())
     logging.info("Scheduler started.")
     scheduler.start()

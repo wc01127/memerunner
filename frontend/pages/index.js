@@ -341,17 +341,17 @@ export default function Home() {
       {/* Title and button container */}
       <div className="title-button-container w-full">
         {/* Invisible spacer with the same dimensions as the button */}
-        <button className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk invisible-spacer">
+        <button className="button-connect-wallet neon-button px-3 py-3 font-cyberpunk invisible-spacer">
             Connect Wallet
         </button>
 
-        <h1 className="title-background neon-title-main text-6xl font-bold font-cyberpunk">Meme Runner</h1>
+        <h1 className="title-background neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Meme Runner</h1>
         <div>
         <button
             onClick={isConnected ? disconnectWallet : connectWallet}
             onMouseOver={e => isConnected ? e.target.textContent = 'Disconnect' : null}
             onMouseOut={e => e.target.textContent = isConnected ? 'Connected' : 'Connect Wallet'}
-            className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk"
+            className="button-connect-wallet neon-button px-3 py-3 font-cyberpunk"
         >
             {isConnected ? 'Connected' : 'Connect Wallet'}
         </button>

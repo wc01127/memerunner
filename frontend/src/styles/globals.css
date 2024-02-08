@@ -22,7 +22,7 @@
   --watermark-width: 7rem; /* Initial width for watermarks */
   --title-background-size: 16rem; /* Adjusted for correction */
   --wallet-button-width: 9rem;
-  --wallet-font-size: 0.65rem;
+  --wallet-font-size: 0.85rem;
   --grave-button-width: 10rem;
   --coin-container-height: 30rem;
 }
@@ -37,7 +37,7 @@
     --title-background-size: 10rem; /* Adjusted for medium screens */
     --wallet-button-width: 7.5rem;
     --wallet-button-height: 2.3rem;
-    --wallet-font-size: 0.5rem;
+    --wallet-font-size: 0.55rem;
     --grave-button-width: 7rem;
     --grave-button-font-size: 0.75rem;
     --coin-container-height: 24rem;
@@ -54,7 +54,7 @@
     --title-background-size: 8rem; /* Adjusted for small screens */
     --wallet-button-width: 5.5rem;
     --wallet-button-height: 2.8rem;
-    --wallet-font-size: 0.4rem;
+    --wallet-font-size: 0.55rem;
     --grave-button-width: 5.5rem;
     --grave-button-font-size: 0.5rem;
     --coin-container-height: 20rem;
@@ -171,8 +171,7 @@ body {
 }
 
 .neon-title-main:hover {
-  font-size: calc(var(--title-size-base) * 1.01);
-  filter: brightness(130%) contrast(130%);
+  filter: brightness(150%) contrast(150%);
 }
 
 .neon-title, .neon-value {
@@ -343,13 +342,6 @@ body {
   left: 0;
 }
 
-.ape-gif {
-  position: absolute;
-  bottom: 90%;
-  left: 28%;
-  width: 4.5rem;
-  height: auto;
-}
 
 /* Neon glow effect for the title */
 .neon-title {
@@ -555,7 +547,7 @@ body {
 .robot-gif {
   position: absolute;
   bottom: 85%; /* Place the bottom of the robot at the top of the watermark */
-  width: 4em; /* Adjust size as needed */
+  width: 3.8em; /* Adjust size as needed */
   height: auto;
 }
 
@@ -613,9 +605,9 @@ body {
 
 .ape-gif {
   position: absolute;
-  bottom: 90%; /* Place the bottom of the robot at the top of the watermark */
+  bottom: 90%; 
   left: 28%;
-  width: 4.5em; /* Adjust size as needed */
+  width: 3.8em; /* Adjust size as needed */
   height: auto;
 }
 
@@ -693,7 +685,7 @@ body {
 }
 
 .grave-button {
-  padding: 6px 0px;
+  padding: 4px 0px;
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
   color: #FEFF05; /* Cyberpunk Yellow */
   border: 2px solid #FEFF05;
@@ -981,21 +973,21 @@ body {
 }
 
 .gifButton {
-  width: 5vw;
-  height: 5vw;
+  width: 50px;
+  height: 50px;
   /* other styles */
 }
 
 @media (max-width: 768px) {
   .gifButton {
-    width: 10vw;
-    height: 10vw;
+    width: 45px;
+    height: 45px;
   }
 }
 
 @media (max-width: 480px) {
   .gifButton {
-    width: 15vw;
-    height: 15vw;
+    width: 40px;
+    height: 40px;
   }
 }

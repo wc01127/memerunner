@@ -399,7 +399,13 @@ export default function Home() {
       }
       }
   >
-    <img src="/cube3.gif" alt="Cube" style={{ width: '50px', height: '50px', opacity:0.85, filter: selectedGif === 'cube' ? 'brightness(110%) contrast(120%)' : 'brightness(100%) contrast(100%)' }} />
+    <img src="/cube3.gif" alt="Cube" className="gifButton" style={{ 
+      width: '50px', 
+      height: '50px', 
+      opacity:0.85, 
+      filter: selectedGif === 'cube' ? 'brightness(110%) contrast(120%)' : 'brightness(100%) contrast(100%)',
+      zIndex: 1000, // High z-index value
+      position: 'relative' }} />
   </button>
   <button
     onClick={() => handleGifSelection('brain')}
@@ -418,7 +424,13 @@ export default function Home() {
       }
       }
   >
-    <img src="/brain4.gif" alt="Brain" style={{ width: '50px', height: '50px', opacity:0.85, filter: selectedGif === 'brain' ? 'brightness(120%) contrast(120%)' : 'brightness(100%) contrast(100%)'
+    <img src="/brain4.gif" alt="Brain" className="gifButton" style={{ 
+      width: '50px', 
+      height: '50px', 
+      opacity:0.85, 
+      filter: selectedGif === 'brain' ? 'brightness(120%) contrast(120%)' : 'brightness(100%) contrast(100%)',
+      zIndex: 1000, // High z-index value
+    position: 'relative'
 }} />
   </button>
 </div>

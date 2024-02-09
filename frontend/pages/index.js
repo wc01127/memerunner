@@ -16,6 +16,8 @@ export default function Home() {
   const [isDiamondHovered, setIsDiamondHovered] = useState(false);
   const [isFrownHovered, setIsFrownHovered] = useState(false);
   const [selectedGif, setSelectedGif] = useState('cube'); // 'cube' or 'brain'
+  const [selectedDataSource, setSelectedDataSource] = useState('gdelt'); // 'gdelt' or 'farcaster'
+
 
   const cubeOptions = [
     { value: 'market_cap', label: 'Market Cap' },
@@ -45,9 +47,26 @@ export default function Home() {
   const [sortOptions, setSortOptions] = useState(cubeOptions);
   
   useEffect(() => {
-    setSortOptions(selectedGif === 'cube' ? cubeOptions : brainOptions);
-    setSelectedSortOption(selectedGif === 'cube' ? cubeOptions[0] : brainOptions[0]);
-  }, [selectedGif]);
+    if (selectedGif === 'cube') {
+      setSortOptions(cubeOptions);
+      setSelectedSortOption(cubeOptions[0]);
+    } else {
+      const brainOptions = selectedDataSource === 'gdelt' ? [
+        { value: 'gdelt_1d', label: '1 Day Share' },
+        { value: 'gdelt_7d', label: '1 Week Share' },
+        { value: 'gdelt_14d', label: '2 Week Share' },
+        { value: 'gdelt_30d', label: '1 Month Share' },
+      ] : [
+        { value: 'farcaster_1d', label: '1 Day Share' },
+        { value: 'farcaster_7d', label: '1 Week Share' },
+        { value: 'farcaster_14d', label: '2 Week Share' },
+        { value: 'farcaster_30d', label: '1 Month Share' },
+      ];
+      setSortOptions(brainOptions);
+      setSelectedSortOption(brainOptions[0]);
+    }
+  }, [selectedGif, selectedDataSource]);
+  
   
   const handleGifSelection = (gifName) => {
     setSelectedGif(gifName);
@@ -75,6 +94,9 @@ export default function Home() {
   };
 
   const formatValue = (value, option) => {
+    if (option.endsWith('_1d') || option.endsWith('_7d') || option.endsWith('_14d') || option.endsWith('_30d')) {
+      return `${value.toFixed(2)}%`; // Format as percentage
+    }
     if (option.startsWith('gdelt')) {
       return `${value.toFixed(2)}%`; // Format GDELT values as percentages
     }
@@ -479,7 +501,12 @@ export default function Home() {
         />
       </>
     )}
-    <div className="selector-container">
+    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+
+</div>
+
+<div className="selector-container" style={{ display: 'flex', alignItems: 'center' }}>
+      
       <ReactSelect
         options={sortOptions}
         styles={customStyles}
@@ -488,7 +515,43 @@ export default function Home() {
         className="custom-react-select-container"
         classNamePrefix="custom-react-select"
       />
+{selectedGif === 'brain' && (
+  <div style={{ display: 'flex', alignItems: 'center', marginLeft: '20px' }}>
+    <button onClick={() => setSelectedDataSource('gdelt')} style={{
+      border: selectedDataSource === 'gdelt' ? '3px solid #FEFF05' : '1px solid #FEFF05',
+      borderRadius: '10px',
+      //padding: '10px 20px', // Increased padding for more width and a rectangular shape
+      backgroundColor: 'rgba(0, 0, 0, 0.7)', // Slightly darker to stand out from the selector
+      cursor: 'pointer',
+      boxShadow: selectedDataSource === 'gdelt' ? '0 0 10px 3px #FEFF05' : 'none',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '85px'
+      //margin: '0 10px', // Added margin for separation from the selector and between buttons
+    }}>
+      <img src="/gdelt.png" alt="GDELT" style={{ width: '180px', height: '40px' }} /> {/* Adjusted dimensions */}
+    </button>
+    <button onClick={() => setSelectedDataSource('farcaster')} style={{
+      border: selectedDataSource === 'farcaster' ? '3px solid #FEFF05' : '1px solid #FEFF05',
+      borderRadius: '10px',
+      padding: '7px 4px', // Increased padding for more width and a rectangular shape
+      backgroundColor: 'rgba(0, 0, 0, 0.7)', // Slightly darker to stand out from the selector
+      cursor: 'pointer',
+      boxShadow: selectedDataSource === 'farcaster' ? '0 0 10px 3px #FEFF05' : 'none',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '85px',
+      margin: '0 10px', // Added margin for separation from the selector and between buttons
+    }}>
+      <img src="/farcaster.png" alt="Farcaster" style={{ width: '172px', height: '26px' }} /> {/* Adjusted dimensions */}
+    </button>
+  </div>
+)}
     </div>
+
+
     <div className="coins-container" style={{ position: 'relative' }}>
       {coins.map((coin, index) => (
         <div key={index} className="coin">

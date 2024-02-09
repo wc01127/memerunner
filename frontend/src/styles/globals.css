@@ -231,6 +231,7 @@ body {
   max-height: var(--coin-container-height);
   position: relative;
   padding: 0.2rem;
+  margin-top: 1%;
   border-radius: 8px;
   background-color: rgba(211, 211, 211, 0.45);
   overflow-y: scroll; /* Enables vertical scrolling if content overflows */
@@ -663,16 +664,20 @@ body {
 
 .selector-container {
   margin-bottom: 0.5em; /* Space between the selector and the coins */
-  margin-left: 10%;
+  margin: 0 auto;
   align-self: flex-start; /* Align the dropdown selector */
-  width: 250px; 
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent grey */
-  border-radius: 10px; /* Rounded corners for the container */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow for depth */
+  width: 400px; 
+  /*background-color: rgba(0, 0, 0, 0.5);  Semi-transparent grey */
+  /*border-radius: 10px; /* Rounded corners for the container */
+  /*box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow for depth */
   z-index: 1000;
 }
-.selector-container:hover {
-  background-color: rgba(0, 0, 0, 0.75); /* Darker semi-transparent grey on hover */
+
+.custom-react-select-container {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  border-radius: 10px;
+  width: 180px;
+
 }
 
 .custom-react-select-container:hover .custom-react-select__control {

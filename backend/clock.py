@@ -242,6 +242,104 @@ def do_gdelt(df):
                 df.at[index, f'gdelt_{period}'] = gdelt_dict[symbol][i]
     return df
 
+def datetime_to_unix_ms(dt):
+    return int(dt.timestamp() * 1000)
+
+# Calculate the start of the day for a given number of days ago
+def start_of_day_days_ago(days):
+    date = datetime.now() - timedelta(days=days)
+    return datetime(date.year, date.month, date.day)
+
+# Check if keywords exist in text
+def check_keywords(text, keywords=['crypto', 'meme', 'token']):
+    return any(keyword in text.lower() for keyword in keywords)
+
+def fetch_searchcaster_data(coin_name, count=200, page=None):
+    base_url = "https://searchcaster.xyz/api/search"
+    params = {
+        "text": coin_name,
+        "count": count,
+    }
+    if page:
+        params["page"] = page
+    response = requests.get(base_url, params=params)
+    if response.status_code == 200:
+        return response.json()['casts']
+    else:
+        print(f"Error fetching data for {coin_name}: {response.status_code}")
+        return []
+
+def count_hits_for_coin(coin_name, coin_symbol):
+    # Define timeframes
+    timeframes = {
+        '1d': datetime_to_unix_ms(start_of_day_days_ago(1)),
+        '7d': datetime_to_unix_ms(start_of_day_days_ago(7)),
+        '14d': datetime_to_unix_ms(start_of_day_days_ago(14)),
+        '30d': datetime_to_unix_ms(start_of_day_days_ago(30)),
+    }
+    hits = {key: 0 for key in timeframes.keys()}
+
+    # Function to query and count hits
+    def query_and_count_hits(query):
+        page = 0
+        while True:
+            casts = fetch_searchcaster_data(query, count=200, page=page * 200)
+            if not casts:
+                break
+            for cast in casts:
+                published_at = cast['body']['publishedAt']
+                if published_at < timeframes['30d']:
+                    return  # Stop if the cast is outside the 30d window
+                text = cast['body']['data']['text']
+                if check_keywords(text):
+                    for timeframe, start_time in timeframes.items():
+                        if published_at >= start_time:
+                            hits[timeframe] += 1
+            page += 1
+
+    # Search for coin name
+    query_and_count_hits(coin_name)
+
+    # Additional search for 'maga' by symbol
+    if coin_name.lower() == 'maga':
+        query_and_count_hits(coin_symbol)
+
+    # Adjust hits for 'memecoin'
+    if coin_name.lower() == 'memecoin':
+        for key in ['1d', '7d', '14d', '30d']:
+            hits[key] = round(hits[key] / 40)
+
+    return hits
+
+
+def update_dataframe_with_farcaster_data(df):
+    for index, row in df.iterrows():
+        coin_name = row['name']
+        coin_symbol = row['symbol']
+        hits = count_hits_for_coin(coin_name, coin_symbol)
+        for timeframe, hit_count in hits.items():
+            df.at[index, f'farcaster_{timeframe}'] = hit_count
+    return df
+
+def convert_hits_to_percentages(df):
+    # Calculate totals for each time period
+    totals = {key: 0 for key in ['1d', '7d', '14d', '30d']}
+    for index, row in df.iterrows():
+        for key in totals.keys():
+            totals[key] += row[f'farcaster_{key}']
+
+    # Convert counts to percentages
+    for index, row in df.iterrows():
+        for key in totals.keys():
+            if totals[key] > 0:
+                percentage = (row[f'farcaster_{key}'] / totals[key]) * 100
+                df.at[index, f'farcaster_{key}'] = round(percentage, 2)
+            else:
+                df.at[index, f'farcaster_{key}'] = 0
+
+    return df
+
+
 def fetch_and_process_data():
     # Fetch data
     logging.info("Starting data fetch and process.")
@@ -270,8 +368,8 @@ def fetch_and_process_data():
         df_main.fillna(0, inplace=True)
         df_grave.fillna(0, inplace=True)
         df_main = do_gdelt(df_main)
-        #print(df_main)
-        #df_main.to_csv('testgdelt.csv')
+        df_main = update_dataframe_with_farcaster_data(df_main)
+        df_main = convert_hits_to_percentages(df_main)
         save_data_s3(df_grave.to_dict(orient='records'), 'grave')
         save_data_s3(df_main.to_dict(orient='records'), 'main')
     except Exception as e:
@@ -282,3 +380,4 @@ if __name__ == '__main__':
     scheduler.add_job(fetch_and_process_data, 'interval', hours=3, next_run_time=datetime.now())
     logging.info("Scheduler started.")
     scheduler.start()
+

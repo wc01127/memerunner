@@ -34,6 +34,10 @@ export default function Home() {
     { value: 'gdelt_14d', label: '2 Week Media Share' },
     { value: 'gdelt_30d', label: '1 Month Media Share' },
     { value: 'gdelt_60d', label: '2 Month Media Share' },
+    { value: 'farcaster_1d', label: '1 Day Farcaster Share' },
+    { value: 'farcaster_7d', label: '1 Week Farcaster Share' },
+    { value: 'farcaster_14d', label: '2 Week Farcaster Share' },
+    { value: 'farcaster_30d', label: '1 Month Farcaster Share' },
     { value: 'coingecko_watchers', label: 'CoinGecko Watchers' },
   ];
   
@@ -72,6 +76,9 @@ export default function Home() {
 
   const formatValue = (value, option) => {
     if (option.startsWith('gdelt')) {
+      return `${value.toFixed(2)}%`; // Format GDELT values as percentages
+    }
+    if (option.startsWith('farcaster')) {
       return `${value.toFixed(2)}%`; // Format GDELT values as percentages
     }
     if (option.includes('percentage')) {

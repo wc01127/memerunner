@@ -514,7 +514,7 @@ export default function Home() {
     </video> 
 
     <div class="watermark">
-      <img src="/watermark4.png" alt="Watermark" />
+      <img src="/watermark5.png" alt="Watermark" />
       <img src="/robot.gif" className="robot-gif" alt="Robot Animation" />
     </div>
 

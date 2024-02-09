@@ -326,15 +326,15 @@ body {
 }
 
 .watermark:hover, .watermark2:hover {
-  width: 240px;
+  width: 100px;
   filter: brightness(100%) contrast(140%);
   opacity: 0.94;
   transition: 0.5s ease-in-out;
 }
 
 .watermark {
-  bottom: 1%;
-  right: 1%;
+  bottom: 0%;
+  right: 0%;
 }
 
 .watermark2 {
@@ -558,7 +558,7 @@ body {
   width: var(--watermark-width); /* Adjust the width as needed */
   height: auto; /* Maintain aspect ratio */
   z-index: 1000; /* Ensure it's above other elements */
-  filter: brightness(98%) contrast(120%);
+  filter: brightness(100%) contrast(120%);
   opacity: 0.87; /* Adjust opacity as needed */
   display: flex; /* Use flexbox to center child elements */
   justify-content: center; /* Center horizontally */
@@ -569,7 +569,7 @@ body {
   position: fixed; /* Fixed position relative to the viewport */
   bottom: 0%; /* Distance from the bottom */
   right: 1%; /* Distance from the right */
-  width: 240px; /* Adjust the width as needed */
+  width: 180px; /* Adjust the width as needed */
   filter: brightness(100%) contrast(140%);
   height: auto; /* Maintain aspect ratio */
   z-index: 1000; /* Ensure it's above other elements */
@@ -584,7 +584,7 @@ body {
   width: var(--watermark-width); /* Adjust the width as needed */
   height: auto; /* Maintain aspect ratio */
   z-index: 1000; /* Ensure it's above other elements */
-  filter: brightness(98%) contrast(120%);
+  filter: brightness(100%) contrast(120%);
   opacity: 0.87; /* Adjust opacity as needed */
   display: middle; /* Use flexbox to center child elements */
   justify-content: right; /* Center horizontally */
@@ -595,7 +595,7 @@ body {
   position: fixed; /* Fixed position relative to the viewport */
   bottom: 0%; /* Distance from the bottom */
   left: 0%; /* Distance from the left, changed from right to left */
-  width: 240px; /* Adjust the width as needed */
+  width: 180px; /* Adjust the width as needed */
   filter: brightness(100%) contrast(140%);
   height: auto; /* Maintain aspect ratio */
   z-index: 1000; /* Ensure it's above other elements */

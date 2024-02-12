@@ -193,9 +193,7 @@ def get_date_ranges():
         '7d': (today - timedelta(days=7)).strftime('%Y-%m-%d'),
         '14d': (today - timedelta(days=14)).strftime('%Y-%m-%d'),
         '30d': (today - timedelta(days=30)).strftime('%Y-%m-%d'),
-        '60d': (today - timedelta(days=60)).strftime('%Y-%m-%d'),
     }
-
 
 def do_gdelt(df):
     date_ranges = get_date_ranges()
@@ -215,7 +213,7 @@ def do_gdelt(df):
                 start_date=start_date,
                 end_date=end_date,
                 country="US",
-                repeat=multi_repeat([(2, "crypto"), (2, "meme")], "OR")
+                repeat=multi_repeat([(2, "crypto"), (2, "meme"), (2, "token"), (2, "coin")], "OR")
             )
             articles = gd.article_search(f)
             counts.append(len(articles))
@@ -231,7 +229,7 @@ def do_gdelt(df):
         symbol = next(iter(result))
         result[symbol] = [round((x / totals[i]) * 100, 2) if totals[i] else 0 for i, x in enumerate(result[symbol])]
     gdelt_dict = {list(item.keys())[0]: list(item.values())[0] for item in gdelt_results}
-    time_periods = ['1d', '7d', '14d', '30d', '60d']
+    time_periods = ['1d', '7d', '14d', '30d']
     new_columns = [f'gdelt_{period}' for period in time_periods]
     for col in new_columns:
         df[col] = 0
@@ -251,7 +249,7 @@ def start_of_day_days_ago(days):
     return datetime(date.year, date.month, date.day)
 
 # Check if keywords exist in text
-def check_keywords(text, keywords=['crypto', 'meme', 'token']):
+def check_keywords(text, keywords=['crypto', 'meme', 'token', 'coin']):
     return any(keyword in text.lower() for keyword in keywords)
 
 def fetch_searchcaster_data(coin_name, count=200, page=None):
@@ -264,6 +262,7 @@ def fetch_searchcaster_data(coin_name, count=200, page=None):
         params["page"] = page
     response = requests.get(base_url, params=params)
     if response.status_code == 200:
+        print(response.json()['casts'])
         return response.json()['casts']
     else:
         print(f"Error fetching data for {coin_name}: {response.status_code}")
@@ -307,7 +306,7 @@ def count_hits_for_coin(coin_name, coin_symbol):
     # Adjust hits for 'memecoin'
     if coin_name.lower() == 'memecoin':
         for key in ['1d', '7d', '14d', '30d']:
-            hits[key] = round(hits[key] / 40)
+            hits[key] = round(hits[key] / 60)
 
     return hits
 
@@ -370,6 +369,9 @@ def fetch_and_process_data():
         df_main = do_gdelt(df_main)
         df_main = update_dataframe_with_farcaster_data(df_main)
         df_main = convert_hits_to_percentages(df_main)
+        df_main['last_updated'] = pd.to_datetime(df_main['last_updated'])
+        df_main['linux_update'] = df_main['last_updated'].astype('int64') // 10**9
+        df_main['last_updated'] = df_main['last_updated'].dt.strftime('%Y-%m-%d %H:%M:%S')
         save_data_s3(df_grave.to_dict(orient='records'), 'grave')
         save_data_s3(df_main.to_dict(orient='records'), 'main')
     except Exception as e:
@@ -377,7 +379,6 @@ def fetch_and_process_data():
    
 if __name__ == '__main__':
     scheduler = BlockingScheduler()
-    scheduler.add_job(fetch_and_process_data, 'interval', hours=3, next_run_time=datetime.now())
+    scheduler.add_job(fetch_and_process_data, 'interval', hours=2, next_run_time=datetime.now())
     logging.info("Scheduler started.")
     scheduler.start()
-

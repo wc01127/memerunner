@@ -663,15 +663,12 @@ body {
 }
 
 .selector-container {
-  margin-bottom: 0.5em; /* Space between the selector and the coins */
-  margin: 0 auto;
-  align-self: flex-start; /* Align the dropdown selector */
-  width: 400px; 
-  /*background-color: rgba(0, 0, 0, 0.5);  Semi-transparent grey */
-  /*border-radius: 10px; /* Rounded corners for the container */
-  /*box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow for depth */
-  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px; /* Adjust as needed */
 }
+
 
 .custom-react-select-container {
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */

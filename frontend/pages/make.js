@@ -13,7 +13,7 @@ export default function Make() {
   const [direction, setDirection] = useState('');
   const [amount, setAmount] = useState('');
   const [currentStep, setCurrentStep] = useState('platformSelection');
-
+  
   const connectWallet = async () => {
     if (window.ethereum) {
       try {
@@ -36,23 +36,35 @@ export default function Make() {
     setWalletAddress('');
   };
 
+  const handlePlatformSelection = (selectedPlatform) => {
+    setPlatform(selectedPlatform);
+    setCurrentStep('memecoinSelection');
+  };
+
+  // Function to handle memecoin selection
+  const handleMemecoinSelection = (coin) => {
+    setSelectedMemecoin(coin);
+    setCurrentStep('timeframeSelection');
+  };
+
   const handleBack = () => {
-    switch(currentStep) {
-      case 'timeframeSelection':
-        setSelectedMemecoin(null);
-        setCurrentStep('memecoinSelection');
-        break;
-      case 'memecoinSelection':
+    const stepOrder = ['platformSelection', 'memecoinSelection', 'timeframeSelection', 'directionSelection', 'amountSelection'];
+    const currentIndex = stepOrder.indexOf(currentStep);
+    if (currentIndex > 0) {
+      const previousStep = stepOrder[currentIndex - 1];
+      setCurrentStep(previousStep);
+
+      // Reset state based on the step moving back to
+      if (previousStep === 'platformSelection') {
         setPlatform('');
-        setCurrentStep('platformSelection');
-        break;
-      case 'directionSelection':
+        setSelectedMemecoin(null);
+      } else if (previousStep === 'memecoinSelection') {
+        setSelectedMemecoin(null);
+      } else if (previousStep === 'timeframeSelection') {
         setTimeframe('');
-        setCurrentStep('timeframeSelection');
-        break;
-      // Continue for other steps as necessary
-      default:
-        // Handle default case or error
+      } else if (previousStep === 'directionSelection') {
+        setDirection('');
+      }
     }
   };
 
@@ -60,14 +72,16 @@ export default function Make() {
     const fetchMemecoins = async () => {
       const response = await fetch('https://meme-runner-0fde5367bf4b.herokuapp.com/api/enriched_coingecko_data');
       const data = await response.json();
-      const filteredCoins = data.filter(coin => coin.gdelt_7d > 0);
+      // Filter coins based on the selected platform
+      const filteredCoins = data.filter(coin => platform === 'gdelt' ? coin.gdelt_7d > 0 : coin.farcaster_7d > 0);
       setMemecoins(filteredCoins);
     };
-
+  
     if (platform) {
       fetchMemecoins();
     }
   }, [platform]);
+  
 
   return (
     <main className="main-background flex min-h-screen flex-col items-center justify-center p-2.5 bg-no-repeat bg-cover bg-center relative">
@@ -98,40 +112,46 @@ export default function Make() {
 
       {platform === '' && (
         <div className="platform-selection" style={{ textAlign: 'center', margin: '20px 0' }}>
-  <h2>Select Platform</h2>
-  <button
-    onClick={() => setPlatform('gdelt')}
-    className={`platform-button ${platform === 'gdelt' ? 'selected' : ''}`}
-  >
-    GDELT 2.0
-  </button>
-  <button
-    onClick={() => setPlatform('farcaster')}
-    className={`platform-button ${platform === 'farcaster' ? 'selected' : ''}`}
-  >
-    Farcaster
-  </button>
+  <div className='platform-text'><h1>Select Platform</h1></div>
+  <br></br>
+  <button onClick={() => handlePlatformSelection('gdelt')} className={`platform-button ${platform === 'gdelt' ? 'selected' : ''}`}>GDELT 2.0</button>
+          <button onClick={() => handlePlatformSelection('farcaster')} className={`platform-button ${platform === 'farcaster' ? 'selected' : ''}`}>Farcaster</button>
+  
 </div>
       )}
 
       {platform && selectedMemecoin === null && (
         <div className="memecoin-selection">
-          <center><h2>Select Memecoin</h2></center>
+          <center><div className="memecoin-selection-text-out"><div className="memecoin-selection-text"><h2>Select Memecoin</h2></div></div></center><br></br>
           <div className="grid grid-cols-3 gap-4">
             {memecoins.map((coin) => (
-              <div key={coin.id} className="memecoin" onClick={() => setSelectedMemecoin(coin)}>
-                <Image src={coin.image} alt={coin.symbol} width={50} height={50} />
-                <span>{coin.symbol.toUpperCase()}</span>
-              </div>
+            <div key={coin.id} className="memecoin" onClick={() => handleMemecoinSelection(coin)}>
+            <Image src={coin.image} alt={coin.symbol} width={50} height={50} />
+            <span>{coin.symbol.toUpperCase()}</span>
+            <span>{platform === 'gdelt' ? `${coin.gdelt_7d}%` : `${coin.farcaster_7d}%`}</span>
+          </div>
             ))}
           </div>
+         <center><button onClick={handleBack} className="back-button">Back</button></center>
+
         </div>
       )}
 
+
       {selectedMemecoin && (
         <>
+        <div className="selected-platform-outer">
+        <div className="selected-platform">
+          <span>{platform.toUpperCase()}</span>
+        </div></div>
+        <div className="selected-memecoin-container">
+        <div className="selected-memecoin">
+              <Image src={selectedMemecoin.image} alt={selectedMemecoin.symbol} width={50} height={50} />
+              <span>{selectedMemecoin.symbol.toUpperCase()}</span>
+              <span>{platform === 'gdelt' ? `${selectedMemecoin.gdelt_7d}%` : `${selectedMemecoin.farcaster_7d}%`}</span>
+            </div></div>
           <div className="timeframe-selection">
-            <h2>Select Timeframe</h2>
+          <div className='platform-text'><center><h2>Select Timeframe</h2></center></div>
             <select value={timeframe} onChange={(e) => setTimeframe(e.target.value)} className="timeframe-select">
               <option value="">--Please choose an option--</option>
               <option value="1 week">1 week</option>
@@ -139,19 +159,30 @@ export default function Make() {
               <option value="3 weeks">3 weeks</option>
               <option value="4 weeks">4 weeks</option>
             </select>
+        
           </div>
 
           {timeframe && (
             <div className="direction-selection">
-              <h2>Select Direction</h2>
-              <button onClick={() => setDirection('increase')}>Increase</button>
-              <button onClick={() => setDirection('decrease')}>Decrease</button>
+              <div className='platform-text'><center><h2>Select Direction</h2></center></div>
+              <button
+                onClick={() => setDirection('increase')}
+                className={direction === 'increase' ? 'selected' : ''}
+              >
+                Increase
+              </button>
+              <button
+                onClick={() => setDirection('decrease')}
+                className={direction === 'decrease' ? 'selected' : ''}
+              >
+                Decrease
+              </button>
             </div>
           )}
 
           {direction && (
             <div className="amount-selection">
-              <h2>Select ETH Bet Amount</h2>
+              <div className='platform-text'><center><h2>Enter ETH Bet Amount</h2></center></div>
               <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} min="0" />
               <button onClick={() => console.log("Amount entered:", amount)}>Enter</button>
             </div>
@@ -159,7 +190,7 @@ export default function Make() {
 
           {amount && (
             <div className="finalize-bet">
-              <h2>Finalize Bet</h2>
+              <div className='platform-text'><center><h2>Finalize Bet</h2></center></div>
               <button onClick={() => console.log({
                 platform,
                 memecoin: selectedMemecoin.symbol,
@@ -172,11 +203,11 @@ export default function Make() {
             </div>
           )}
 
-          <Link href="/">
-            {currentStep !== 'platformSelection' && (
-              <button onClick={handleBack} className="back-button">Back</button>
-            )}
-          </Link>
+{currentStep !== 'platformSelection' && (
+        <button onClick={handleBack} className="back-button">Back</button>
+      )}
+
+
 
         </>
       )}

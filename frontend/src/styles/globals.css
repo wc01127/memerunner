@@ -1013,12 +1013,15 @@ button:hover, .timeframe-select:hover, .direction-selection button:hover, .amoun
   border-color: #000;
 }
 
+
 .memecoin-selection .grid {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  background-color: rgba(255,255,255, 0.5); /* Semi-transparent black */
+  border-radius: 10px; /* Rounded corners */
   justify-content: center;
-  width: 60%;
+  width: 75%;
   margin: 0 auto; /* Center the flex container */
 }
 
@@ -1037,8 +1040,8 @@ button:hover, .timeframe-select:hover, .direction-selection button:hover, .amoun
 
 .memecoin img {
   border-radius: 50%; /* Makes images circular, adjust as needed */
-  width: 75px; /* Adjust image size as needed */
-  height: 75px; /* Ensure this matches width for a circle */
+  width: 100px; /* Adjust image size as needed */
+  height: 100px; /* Ensure this matches width for a circle */
   object-fit: cover;
 }
 
@@ -1048,18 +1051,23 @@ button:hover, .timeframe-select:hover, .direction-selection button:hover, .amoun
   margin-top: 5px; /* Space between image and symbol text */
 }
 
-.platform-selection, .memecoin-selection, .timeframe-selection, .direction-selection, .amount-selection, .finalize-bet {
+.platform-selection, .timeframe-selection, .direction-selection, .amount-selection, .finalize-bet {
+  background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent black */
+  border-radius: 10px; /* Rounded corners */
+  padding: 8px;
+  margin: 8px 0;
+}
+
+.platform-text {
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
   border-radius: 10px; /* Rounded corners */
-  padding: 20px;
-  margin: 20px 0;
 }
 
 .platform-button {
-  background-color: (0, 0, 0, 0.5);; /* Dark background */
+  background-color: (255, 255, 255, 0.5);; /* Dark background */
   color: #fff; /* White text */
   border: none;
-  padding: 10px 20px;
+  padding: 10px 10px;
   margin: 0 10px;
   border-radius: 5px; /* Slightly rounded corners for buttons */
   cursor: pointer;
@@ -1072,10 +1080,77 @@ button:hover, .timeframe-select:hover, .direction-selection button:hover, .amoun
 }
 
 .memecoin {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent white */
+  border-radius: 10px; /* Rounded edges */
+  padding: 5px; /* Padding inside each coin container */
+  margin: 5px;
+  display: flex;
   cursor: pointer;
-  transition: transform 0.2s;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px; /* Space between items */
 }
 
 .memecoin:hover {
   transform: scale(1.1); /* Slightly enlarge memecoins on hover */
+}
+
+.memecoin-selection-text {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent white */
+  border-radius: 10px; /* Rounded edges */
+  padding: 8px;
+
+
+}
+
+.memecoin-selection-text-out {
+  background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+  border-radius: 10px; /* Rounded edges */
+  padding: 8px;
+  width: 10%;
+
+}
+
+.selected-memecoin {
+  background-color: rgba(0,0,0, 0.5); /* Semi-transparent white */
+  border-radius: 10px; /* Rounded edges */
+  padding:8px; /* Padding inside each coin container */
+  display: flex;
+  width: 120px;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+}
+
+.selected-memecoin img {
+  border-radius: 50%; /* Makes images circular, adjust as needed */
+  width: 100px; /* Adjust image size as needed */
+  height: 100px; /* Ensure this matches width for a circle */
+  object-fit: cover;
+
+}
+
+.selected-memecoin-container {
+  background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+  border-radius: 10px; /* Rounded edges */
+  padding: 5px; /* Padding inside each coin container */
+  margin: 5px;
+}
+
+.selected-platform {
+  background-color: rgba(0,0,0, 0.5); /* Semi-transparent white */
+  border-radius: 10px; /* Rounded edges */
+  padding: 8px; /* Padding inside each coin container */
+}
+
+.selected-platform-outer {
+  background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+  border-radius: 10px; /* Rounded edges */
+  padding: 8px; /* Padding inside each coin container */
+  margin: 5px;
+}
+
+.selected {
+  background-color: #4CAF50; /* Green background */
+  color: white; /* White text */
 }

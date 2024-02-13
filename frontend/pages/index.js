@@ -1,4 +1,3 @@
-'use client'
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
@@ -17,7 +16,6 @@ export default function Home() {
   const [isFrownHovered, setIsFrownHovered] = useState(false);
   const [selectedGif, setSelectedGif] = useState('cube'); // 'cube' or 'brain'
   const [selectedDataSource, setSelectedDataSource] = useState('gdelt'); // 'gdelt' or 'farcaster'
-  const [selectedDuration, setSelectedDuration] = useState('1d'); // Default to '1d'
 
 
   const cubeOptions = [
@@ -198,26 +196,6 @@ export default function Home() {
     setIsConnected(false);
     setCurrentChainId('');
   };
-
-  const handleSortChange = (selectedOption) => {
-    setSelectedSortOption(selectedOption);
-  
-    // Extract the duration from the selected option's value
-    const duration = selectedOption.value.split('_')[1];
-    setSelectedDuration(duration);
-  };
-  
-  const getSortOptionsForDataSource = (dataSource) => {
-    // Define base options for both data sources
-    const baseOptions = [
-      { value: `${dataSource}_1d`, label: '1 Day Share' },
-      { value: `${dataSource}_7d`, label: '1 Week Share' },
-      { value: `${dataSource}_14d`, label: '2 Week Share' },
-      { value: `${dataSource}_30d`, label: '1 Month Share' },
-    ];
-  
-    return baseOptions;
-  };
   
 
   useEffect(() => {
@@ -339,21 +317,14 @@ export default function Home() {
     }
   }, [selectedSortOption, originalCoins]);
   
-  useEffect(() => {
-    const newSortOptions = getSortOptionsForDataSource(selectedDataSource);
-  
-    // Attempt to preserve the selected duration when switching data sources
-    const newSelectedOptionValue = `${selectedDataSource}_${selectedDuration}`;
-    const newSelectedOption = newSortOptions.find(option => option.value === newSelectedOptionValue);
-  
-    setSortOptions(newSortOptions);
-    if (newSelectedOption) {
-      setSelectedSortOption(newSelectedOption);
-    } else {
-      setSelectedSortOption(newSortOptions[0]); // Fallback to the first option if no match is found
-    }
-  }, [selectedDataSource, selectedDuration]);
-  
+  const handleSortChange = (selectedOption) => {
+    setSelectedSortOption(selectedOption);
+    // Logic to filter and sort coins based on the selected option
+    const newSortedCoins = originalCoins
+      .filter(coin => coin[selectedOption.value] !== 0)
+      .sort((a, b) => b[selectedOption.value] - a[selectedOption.value]);
+    setCoins(newSortedCoins);
+  };
 
   const [firstCoinPosition, setFirstCoinPosition] = useState({ top: 0, left: 0 });
   const [lastCoinPosition, setLastCoinPosition] = useState({ top: 0, left: 0 });
@@ -544,7 +515,7 @@ export default function Home() {
         classNamePrefix="custom-react-select"
       />
 {selectedGif === 'brain' && (
-  <div style={{ display: 'flex', alignItems: 'center', marginLeft: '20px' }}>
+  <div style={{ display: 'flex', alignItems: 'center', marginLeft: '15px' }}>
     <button onClick={() => setSelectedDataSource('gdelt')} style={{
       border: selectedDataSource === 'gdelt' ? '3px solid #FEFF05' : '1px solid #FEFF05',
       borderRadius: '10px',
@@ -558,12 +529,12 @@ export default function Home() {
       width: '90px'
       //margin: '0 10px', // Added margin for separation from the selector and between buttons
     }}>
-      <img src="/gdelt.png" alt="GDELT" style={{ width: '180px', height: '40px' }} /> {/* Adjusted dimensions */}
+      <img src="/gdelt.png" alt="GDELT" style={{ width: '180px', height: '25px' }} /> {/* Adjusted dimensions */}
     </button>
     <button onClick={() => setSelectedDataSource('farcaster')} style={{
       border: selectedDataSource === 'farcaster' ? '3px solid #FEFF05' : '1px solid #FEFF05',
       borderRadius: '10px',
-      padding: '7px 4px', // Increased padding for more width and a rectangular shape
+      //padding: '10px 8px', // Increased padding for more width and a rectangular shape
       backgroundColor: 'rgba(0, 0, 0, 0.7)', // Slightly darker to stand out from the selector
       cursor: 'pointer',
       boxShadow: selectedDataSource === 'farcaster' ? '0 0 10px 3px #FEFF05' : 'none',
@@ -573,7 +544,7 @@ export default function Home() {
       width: '90px',
       margin: '0 10px', // Added margin for separation from the selector and between buttons
     }}>
-      <img src="/farcaster.png" alt="Farcaster" style={{ width: '172px', height: '26px' }} /> {/* Adjusted dimensions */}
+      <img src="/farcaster.png" alt="Farcaster" style={{ width: '180px', height: '25px' }} /> {/* Adjusted dimensions */}
     </button>
   </div>
 )}

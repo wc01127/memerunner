@@ -78,12 +78,22 @@ export default function Make() {
         <source src="/factory_background.mp4" type="video/mp4" />
       </video>
 
-      <div className="title-button-container w-full flex justify-between items-center p-4">
-        <button className="button-connect-wallet neon-button" onClick={isConnected ? disconnectWallet : connectWallet}>
-          {isConnected ? 'Disconnect Wallet' : 'Connect Wallet'}
+      <div className="title-button-container w-full">
+      <button className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk invisible-spacer">
+            Connect Wallet
         </button>
-        <h1 className="neon-title-main">Makers Factory</h1>
-        {isConnected && <div className="wallet-address">{walletAddress}</div>}
+        <h1 className="title-background neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Makers Factory</h1>
+        <button
+          onClick={isConnected ? disconnectWallet : connectWallet}
+          className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk"
+        >
+          {isConnected ? 'Connected' : 'Connect Wallet'}
+        </button>
+        {isConnected && walletAddress && (
+          <div className="wallet-address neon-title font-cyberpunk text-cyberpunkYellow">
+            {walletAddress}
+          </div>
+        )}
       </div>
 
       {platform === '' && (

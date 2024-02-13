@@ -1015,9 +1015,13 @@ button:hover, .timeframe-select:hover, .direction-selection button:hover, .amoun
 
 .memecoin-selection .grid {
   display: flex;
-  gap: 0.3rem;
+  flex-wrap: wrap;
+  gap: 1rem;
   justify-content: center;
+  width: 60%;
+  margin: 0 auto; /* Center the flex container */
 }
+
 
 .memecoin {
   display: flex;
@@ -1044,3 +1048,34 @@ button:hover, .timeframe-select:hover, .direction-selection button:hover, .amoun
   margin-top: 5px; /* Space between image and symbol text */
 }
 
+.platform-selection, .memecoin-selection, .timeframe-selection, .direction-selection, .amount-selection, .finalize-bet {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.platform-button {
+  background-color: (0, 0, 0, 0.5);; /* Dark background */
+  color: #fff; /* White text */
+  border: none;
+  padding: 10px 20px;
+  margin: 0 10px;
+  border-radius: 5px; /* Slightly rounded corners for buttons */
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.platform-button.selected, .platform-button:hover {
+  background-color: #FEFF05; /* Slightly lighter background on hover/select */
+  box-shadow: 0 0 15px #ff0; /* Glowing effect */
+}
+
+.memecoin {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.memecoin:hover {
+  transform: scale(1.1); /* Slightly enlarge memecoins on hover */
+}

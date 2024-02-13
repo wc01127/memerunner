@@ -87,18 +87,26 @@ export default function Make() {
       </div>
 
       {platform === '' && (
-        <div className="platform-selection">
-          <h2>Select Platform</h2>
-          <div className="image-container flex justify-around w-full">
-            <Image src="/gdelt.png" alt="GDELT 2.0" width={100} height={100} onClick={() => setPlatform('gdelt')} style={{ cursor: 'pointer' }} />
-            <Image src="/farcaster.png" alt="Farcaster" width={100} height={100} onClick={() => setPlatform('farcaster')} style={{ cursor: 'pointer' }} />
-          </div>
-        </div>
+        <div className="platform-selection" style={{ textAlign: 'center', margin: '20px 0' }}>
+  <h2>Select Platform</h2>
+  <button
+    onClick={() => setPlatform('gdelt')}
+    className={`platform-button ${platform === 'gdelt' ? 'selected' : ''}`}
+  >
+    GDELT 2.0
+  </button>
+  <button
+    onClick={() => setPlatform('farcaster')}
+    className={`platform-button ${platform === 'farcaster' ? 'selected' : ''}`}
+  >
+    Farcaster
+  </button>
+</div>
       )}
 
       {platform && selectedMemecoin === null && (
         <div className="memecoin-selection">
-          <h2>Select Memecoin</h2>
+          <center><h2>Select Memecoin</h2></center>
           <div className="grid grid-cols-3 gap-4">
             {memecoins.map((coin) => (
               <div key={coin.id} className="memecoin" onClick={() => setSelectedMemecoin(coin)}>
@@ -133,7 +141,7 @@ export default function Make() {
 
           {direction && (
             <div className="amount-selection">
-              <h2>Select Amount</h2>
+              <h2>Select ETH Bet Amount</h2>
               <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} min="0" />
               <button onClick={() => console.log("Amount entered:", amount)}>Enter</button>
             </div>

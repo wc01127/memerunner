@@ -68,6 +68,48 @@ export default function Make() {
     }
   };
 
+  const convertTimeframeToUnix = (timeframe) => {
+    const now = Date.now(); // Current time in milliseconds
+    let durationInSeconds;
+    switch (timeframe) {
+      case '1 week':
+        durationInSeconds = 1 * 7 * 24 * 60 * 60;
+        break;
+      case '2 weeks':
+        durationInSeconds = 2 * 7 * 24 * 60 * 60;
+        break;
+      case '3 weeks':
+        durationInSeconds = 3 * 7 * 24 * 60 * 60;
+        break;
+      case '4 weeks':
+        durationInSeconds = 4 * 7 * 24 * 60 * 60;
+        break;
+      default:
+        durationInSeconds = 0; // Default case, should not happen
+    }
+    return Math.floor(now / 1000) + durationInSeconds; // Convert milliseconds to seconds and add duration
+  };
+
+  const handleMakeBet = () => {
+    const betEndTime = convertTimeframeToUnix(timeframe);
+    const rawMetricCurrentValue = platform === 'gdelt' ? 
+        selectedMemecoin.gdelt_7d : 
+        selectedMemecoin.farcaster_7d;
+    const metricCurrentValue = Math.floor(parseFloat(rawMetricCurrentValue) * 100);
+    const betDetails = {
+      platform,
+      memecoin: selectedMemecoin.symbol,
+      metricCurrentValue,
+      betEndTime,
+      outcomeDirection: direction,
+      amount,
+      walletAddress, // Assuming walletAddress is already defined and holds the user's address
+    };
+
+    // Implement the logic to send betDetails to your smart contract here
+    console.log("Finalizing bet with details:", betDetails);
+  };
+
   useEffect(() => {
     const fetchMemecoins = async () => {
       const response = await fetch('https://meme-runner-0fde5367bf4b.herokuapp.com/api/enriched_coingecko_data');
@@ -191,15 +233,7 @@ export default function Make() {
           {amount && (
             <div className="finalize-bet">
               <div className='platform-text'><center><h2>Finalize Bet</h2></center></div>
-              <button onClick={() => console.log({
-                platform,
-                memecoin: selectedMemecoin.symbol,
-                timeframe,
-                outcome: direction,
-                amount,
-                wallet: walletAddress,
-                ID: "PlaceholderID"
-              })}>Make Bet</button>
+              <button onClick={handleMakeBet}>Make Bet</button>
             </div>
           )}
 

@@ -1,16 +1,14 @@
 import requests
-import os
 import time
 import json
 import pandas as pd
 from datetime import datetime, timedelta
 from apscheduler.schedulers.blocking import BlockingScheduler
 from ratelimit import limits, sleep_and_retry
-from coinmarketcapapi import CoinMarketCapAPI, CoinMarketCapAPIError
 from gdeltdoc import GdeltDoc, Filters, multi_repeat
 import logging
 import boto3
-# Other imports...
+
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(name)s - %(message)s')
@@ -21,8 +19,6 @@ COINGECKO_API_URL = 'https://api.coingecko.com/api/v3/coins/markets'
 COINGECKO_COIN_API_URL = 'https://api.coingecko.com/api/v3/coins/'
 CHAIN_API_URL = 'https://icons.llamao.fi/icons/chains/rsz_token?w=48&h=48'
 STRIP_CHARS = '!?@#$.'
-CMC_API_KEY1 = '02630e73-8ed0-48f7-80ce-a60398599468'
-CMC_API_KEY2 = 'be176b0c-2b5c-47b2-8514-379678814ecd'
 CG_API_KEY1 = 'CG-wkaU3WnSmWTxKcCYfhSezwMF'
 CG_API_KEY2 = 'CG-39fGudHnptWEPKn3wwaXknEy'
 DATA_FILE_PATH_MAIN = 'enriched_data.json'
@@ -78,11 +74,6 @@ def create_dataframe_from_response(response):
     else:
         return pd.DataFrame()
 
-def get_coinmarketcap_data(symbol, data_type):
-    cmc_api_key = CMC_API_KEY1 if data_type == 'main' else CMC_API_KEY2
-    cmc = CoinMarketCapAPI(cmc_api_key)
-    response = cmc.cryptocurrency_info(symbol=symbol)
-    return response.data
 
 def add_market_cap_columns(df, threshold):
     # Define the threshold
@@ -149,37 +140,6 @@ def add_coingecko_columns(df, data_type):
     df['price_change_percentage_60d'] = price_change_percentage_60d
     df['price_change_percentage_24h'] = (df['price_change_24h'] / (df['current_price'] - df['price_change_24h'])) * 100
 
-def mature_dataframe(df, data_type):
-    platforms = []
-    platform_icon_urls = []
-    for symbol in df['symbol']:
-        symbol_cleaned = symbol.strip(STRIP_CHARS).upper()
-        cmc_data = get_coinmarketcap_data(symbol_cleaned, data_type)
-        
-        # Extract platform data
-        platform_url = None
-        platform_name = None
-        if cmc_data and symbol_cleaned in cmc_data:
-            coin_info = cmc_data[symbol_cleaned][0]
-            if 'platform' in coin_info and coin_info['platform']:
-                platform_name = coin_info['platform']['name'].lower()
-                platform_url = CHAIN_API_URL.replace('token', platform_name)
-        platforms.append(platform_name or symbol_cleaned)
-        platform_icon_urls.append(platform_url or CHAIN_API_URL.replace('token', symbol_cleaned.lower()))
-
-    # Check if the length of platforms matches the length of the DataFrame excluding the title row
-    if len(platforms) == len(df):
-        # Add 'platform' and 'platform_icon_url' columns to DataFrame
-        df['platform'] = platforms  # Add None for the title row
-        df['platform_icon_url'] = platform_icon_urls # Add None for the title row
-    else:
-        print("Error: Length of 'platforms' list does not match the length of the DataFrame.")
-        # Reset index for proper comparison
-        df_reset = df.reset_index(drop=True)
-        non_matching_rows = df_reset[~df_reset['symbol'].isin(platforms) | ~df_reset['symbol'].isin(platform_icon_urls)]
-        print("Rows not contained in both:")
-        print(non_matching_rows)
-    return df
 
 def clean_name(name):
     if '(' in name:

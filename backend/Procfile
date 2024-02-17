@@ -1,2 +1,2 @@
-web: python app.py
-clock: python clock.py
+web: python mr_server.py
+clock: python mr_scheduler.py

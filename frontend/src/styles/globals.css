@@ -713,6 +713,19 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
+  right: 40%;
+
+  margin-top: 50px; /* Adjust the space above the button */
+  bottom: 1%; /* Distance from the bottom */
+  width: 120px;
+}
+
+.track-button-container {
+  position: fixed;
+  width: 100%;
+  display: flex;
+  left: 40%;
+  justify-content: center;
   margin-top: 50px; /* Adjust the space above the button */
   bottom: 1%; /* Distance from the bottom */
   width: 120px;
@@ -1154,3 +1167,69 @@ button:hover, .timeframe-select:hover, .direction-selection button:hover, .amoun
   background-color: #4CAF50; /* Green background */
   color: white; /* White text */
 }
+.trackContainer {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+  position: relative;
+  height: 70vh;
+}
+
+.trackMain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.trackTitle {
+  margin: 20px 0;
+  font-size: 2rem;
+}
+
+.racetrack {
+  position: relative;
+  width: 80%; /* Adjust based on your layout needs */
+  height: 70vh; /* Adjust based on your layout needs */
+  margin-top: 5vh; /* Start 10% from the top */
+  margin-bottom: 5vh; /* End 10% from the bottom */
+  margin-left: auto; /* Center the racetrack horizontally */
+  margin-right: auto; /* Center the racetrack horizontally */
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent white */
+  border-radius: 10px; /* Rounded corners */
+  overflow: hidden; /* Prevents scrolling by hiding overflow */
+  display: flex;
+  justify-content: space-evenly; /* Distribute lanes evenly */
+  align-items: center; /* Vertically center lanes */
+  padding: 20px; /* Add some padding inside the racetrack */
+}
+
+.lane {
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  width: 8%;
+  display: flex;
+  justify-content: center; /* Center lane content horizontally */
+  align-items: center; /* Center lane content vertically */
+  flex-direction: column;
+}
+
+/* Adjust dividers to be lines */
+.racetrack::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  padding-left: 1px;
+  height: 100%;
+  background: 
+    repeating-linear-gradient(to right, 
+                               #ccc, #ccc 1px, 
+                               transparent 1px, transparent calc(10% - 0px));
+  pointer-events: none;
+}
+
+
+
+

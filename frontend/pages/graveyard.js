@@ -94,11 +94,11 @@ export default function YourPageName() {
         <source src="/graveyard_background.mp4" type="video/mp4"></source>
     </video> 
       <div className="title-button-container w-full">
-      <button className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk invisible-spacer">
+      {/* <button className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk invisible-spacer">
             Connect Wallet
-        </button>
+        </button> */}
         <h1 className="title-background neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Graveyard</h1>
-        <button
+        {/* <button
           onClick={isConnected ? disconnectWallet : connectWallet}
           className="button-connect-wallet neon-button px-6 py-3 font-cyberpunk"
         >
@@ -108,11 +108,11 @@ export default function YourPageName() {
           <div className="wallet-address neon-title font-cyberpunk text-cyberpunkYellow">
             {walletAddress}
           </div>
-        )}
+        )} */}
       </div>
 
       
-      <Link href="/make">
+      {/* <Link href="/make">
         <button className="button-make font-cyberpunk">
         M<br/>A<br/>K<br/>E
         </button>
@@ -122,7 +122,7 @@ export default function YourPageName() {
       <button className="button-take font-cyberpunk">
         T<br/>A<br/>K<br/>E
       </button>
-      </Link>
+      </Link> */}
 
       <div className="coins-section">
         <div className="coins-container">

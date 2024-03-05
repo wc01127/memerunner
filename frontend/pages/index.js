@@ -352,29 +352,29 @@ export default function Home() {
       <img src="/ufo2.gif" className="ufo ufo2" />
       <img src="/bomb.gif" className="bomb bomb1" />
 
-      <Link href="/make">
+      {/* <Link href="/make">
         <button className="button-make font-cyberpunk">
           M<br/>A<br/>K<br/>E
         </button>
-      </Link>
+      </Link> */}
 
-      <Link href="/take">
+      {/* <Link href="/take">
       <button className="button-take font-cyberpunk">
         T<br/>A<br/>K<br/>E
       </button>
-      </Link>
+      </Link> */}
 
       
 
       {/* Title and button container */}
       <div className="title-button-container w-full">
         {/* Invisible spacer with the same dimensions as the button */}
-        <button className="button-connect-wallet neon-button px-3 py-3 font-cyberpunk invisible-spacer">
+        {/* <button className="button-connect-wallet neon-button px-3 py-3 font-cyberpunk invisible-spacer">
             Connect Wallet
-        </button>
+        </button> */}
 
         <h1 className="title-background neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Meme Runner</h1>
-        <div>
+        {/* <div>
         <button
             onClick={isConnected ? disconnectWallet : connectWallet}
             onMouseOver={e => isConnected ? e.target.textContent = 'Disconnect' : null}
@@ -388,7 +388,7 @@ export default function Home() {
                     {walletAddress}
                 </div>
         )}
-        </div>
+        </div> */}
       </div>
 
       {isConnected && currentChainId !== '0xa0c71fd' && (

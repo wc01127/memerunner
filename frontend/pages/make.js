@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import Image from 'next/image';
+import { ethers } from 'ethers';
+import MemeRunnerBetsArtifact from '../public/MemeRunnerBets.json';
+
+const MemeRunnerBetsABI = MemeRunnerBetsArtifact.abi;
+const contractAddress = "0xd8ce647398f783AdcD2cC96bC3EA9650C929c506";
+
+import { placeBet } from '../src/services/ethers';
 
 export default function Make() {
   const [isConnected, setIsConnected] = useState(false);
@@ -90,25 +97,38 @@ export default function Make() {
     return Math.floor(now / 1000) + durationInSeconds; // Convert milliseconds to seconds and add duration
   };
 
-  const handleMakeBet = () => {
-    const betEndTime = convertTimeframeToUnix(timeframe);
-    const rawMetricCurrentValue = platform === 'gdelt' ? 
-        selectedMemecoin.gdelt_7d : 
-        selectedMemecoin.farcaster_7d;
+  const handleMakeBet = async () => {
+    if (!window.ethereum) return alert('Please install MetaMask.');
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(contractAddress, MemeRunnerBetsABI.abi, signer);
     const metricCurrentValue = Math.floor(parseFloat(rawMetricCurrentValue) * 100);
-    const betDetails = {
-      platform,
-      memecoin: selectedMemecoin.symbol,
-      metricCurrentValue,
-      betEndTime,
-      outcomeDirection: direction,
-      amount,
-      walletAddress, // Assuming walletAddress is already defined and holds the user's address
-    };
 
-    // Implement the logic to send betDetails to your smart contract here
-    console.log("Finalizing bet with details:", betDetails);
-  };
+    const betEndTime = convertTimeframeToUnix(timeframe);
+    const outcomeDirection = direction === 'increase' ? 'Increase' : 'Decrease';
+    const betAmount = ethers.utils.parseEther(amount.toString());
+    console.log(contract)
+    console.log(platform)
+    console.log(selectedMemecoin.symbol)
+    console.log(metricCurrentValue)
+    console.log(betEndTime)
+    console.log(outcomeDirection)
+    console.log(betAmount)
+    await contract.placeBet(
+      platform,
+      selectedMemecoin.symbol,
+      metricCurrentValue, // Assuming metricCurrentValue is not used in this example
+      betEndTime,
+      outcomeDirection,
+      betAmount
+    );
+
+    console.log('Bet placed successfully');
+  } catch (error) {
+    console.error('Error placing bet:', error);
+  }
+};
 
   useEffect(() => {
     const fetchMemecoins = async () => {

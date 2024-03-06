@@ -8,19 +8,58 @@ export default function Track() {
 
   useEffect(() => {
     fetch('https://meme-runner-0fde5367bf4b.herokuapp.com/api/enriched_coingecko_data')
-      .then((response) => response.json())
-      .then((data) => {
-        const topCoins = data.sort((a, b) => b.market_cap - a.market_cap).slice(0, 10);
-        const maxCap = topCoins[0].market_cap;
-        const minCap = topCoins[topCoins.length - 1].market_cap;
-        const normalizedCoins = topCoins.map(coin => ({
-          ...coin,
-          normalizedCap: (coin.market_cap - minCap) / (maxCap - minCap)
-        }));
-        setCoins(normalizedCoins);
+      .then(response => response.json())
+      .then(data => {
+        // Sort by market cap in descending order
+        let sortedCoins = data.filter(coin => coin.market_cap > 100000000)
+                              .sort((a, b) => b.market_cap - a.market_cap);
+        
+        // Calculate the midpoint index
+        const midpoint = Math.floor(sortedCoins.length / 2);
+  
+        // Split the array into two halves
+        const leftHalf = sortedCoins.slice(0, midpoint).reverse(); // lower market cap on the left
+        const rightHalf = sortedCoins.slice(midpoint, sortedCoins.length); // higher market cap on the right
+  
+        // Merge two halves so the coin with the highest market cap is in the center
+        const orderedCoins = [...leftHalf, ...rightHalf];
+  
+        // Calculate positions
+        orderedCoins.forEach((coin, index) => {
+          const horizontalCenter = 48; // assuming the center is at 50% of the parent container
+          const offset = (index - midpoint) * (100 / sortedCoins.length);
+          const horizontalPosition = horizontalCenter + offset;
+  
+          const logCap = Math.log(coin.market_cap);
+          const minLogCap = Math.log(sortedCoins[sortedCoins.length - 1].market_cap);
+          const maxLogCap = Math.log(sortedCoins[0].market_cap);
+          const normalizedLogCap = (logCap - minLogCap) / (maxLogCap - minLogCap);
+          const verticalPosition = normalizedLogCap * 90; // Adjust as needed
+  
+          coin.horizontalPosition = horizontalPosition;
+          coin.verticalPosition = verticalPosition;
+        });
+  
+        setCoins(orderedCoins);
       })
-      .catch((error) => console.error('Error fetching coin data:', error));
+      .catch(error => console.error('Error fetching coin data:', error));
   }, []);
+  
+  
+
+  // Helper function to format market cap
+  const formatMarketCap = (marketCap) => {
+    if (marketCap >= 1e9) {
+      return `${(marketCap / 1e9).toFixed(marketCap < 10e9 ? 1 : 0)} B`;
+    } else if (marketCap >= 1e6) {
+      return `${Math.round(marketCap / 1e6)} M`;
+    } else {
+      return `${Math.round(marketCap / 1e3)} K`;
+    }
+  };
+
+  const coinSize = coins.length > 10 ? Math.max(50 - (coins.length - 10) * 3, 20) : 50;
+
 
   return (
     <div className="trackContainer">
@@ -32,22 +71,22 @@ export default function Track() {
     </video> 
       <main className="trackMain">
       <h1 className="title-background neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Racetrack</h1>
-
-        <div className="racetrack">
-  {coins.map((coin, index) => (
-    <div
-      key={coin.id}
-      className="lane"
-      style={{
-        left: `${10 + index * (80 / coins.length)}%`, // This already aligns with the dividers
-        top: `${-60 + (1 - coin.normalizedCap) * 140}%`, // Adjust if necessary
-      }}
-    >
-      <Image src={coin.image} alt={coin.name} width={50} height={50} unoptimized={true} />
-      <p><small>{coin.symbol.toUpperCase()}</small></p>
+      <div className="racetrack">
+      {coins.map((coin, index) => (
+  <div key={coin.id} className="lane" style={{
+    left: `${coin.horizontalPosition}%`,
+    bottom: `${coin.verticalPosition}%`,
+  }}>
+    <div className="vertical-line left-line"></div> {/* Left line */}
+    <div className="coinImage">
+      <Image src={coin.image} alt={coin.name} width={50} height={50} style={{ borderRadius: '50%' }} unoptimized={true} />
     </div>
-  ))}
-</div>
+    <div className="vertical-line right-line"></div> {/* Right line */}
+    <p>{formatMarketCap(coin.market_cap)}</p>
+  </div>
+))}
+
+        </div>
 
 
         <div className="graveyard-button-container">
@@ -68,3 +107,4 @@ export default function Track() {
     </div>
   );
 }
+

@@ -569,13 +569,15 @@ export default function Home() {
   <div className="track-button-container">
         <Link href="/track" className="grave-button font-cyberpunk">T R A C K</Link>
       </div>
-    
-    <div className="graveyard-button-container">
-        <Link href="/graveyard" className="grave-button font-cyberpunk">G R A V E S</Link>
+
+      <div className="graveyard-button-container">
+        <Link href="/graveyard" className="grave-button font-cyberpunk">G R A V E</Link>
       </div>
+
     <video id="background-video" autoPlay loop muted>
         <source src="/memerunner_background.mp4" type="video/mp4"></source>
     </video> 
+
 
     <div class="watermark">
       <img src="/watermark5.png" alt="Watermark" />

@@ -138,9 +138,15 @@ export default function YourPageName() {
         </div>
       </div>
 
-      <div className="graveyard-button-container">
+      <div className="track-button-container">
         <Link href="/" className="grave-button font-cyberpunk">H O M E</Link>
       </div>
+
+      <div className="graveyard-button-container">
+        <Link href="/track" className="grave-button font-cyberpunk">T R A C K</Link>
+      </div>
+
+
 
       <div class="watermark">
       <img src="/watermark5.png" alt="Watermark" />

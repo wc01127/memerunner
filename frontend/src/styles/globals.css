@@ -713,18 +713,47 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
-  right: 40%;
-
+  right: 38%;
+  flex: 1;
   margin-top: 50px; /* Adjust the space above the button */
   bottom: 1%; /* Distance from the bottom */
   width: 120px;
+}
+
+.invisible-button {
+  padding: 4px 0px;
+  background-color: rgba(0, 0, 0, 0.0); /* Semi-transparent background */
+  color: #FEFF05; /* Cyberpunk Yellow */
+  border: 2px solid #FEFF05;
+  font-weight: bold;
+  opacity: 0;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s, border 0.3s;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block; /* or 'block' if you prefer */
+  width: var(--grave-button-width);
+  font-size: var(--grave-button-font-size);
 }
 
 .track-button-container {
   position: fixed;
   width: 100%;
   display: flex;
-  left: 40%;
+  left: 38%;
+  flex: 1;
+  justify-content: center;
+  margin-top: 50px; /* Adjust the space above the button */
+  bottom: 1%; /* Distance from the bottom */
+  width: 120px;
+}
+
+.invisible-button-container {
+  position: fixed;
+  width: 100%;
+  display: flex;
+  left: 50%;
+  opacity: 0;
   justify-content: center;
   margin-top: 50px; /* Adjust the space above the button */
   bottom: 1%; /* Distance from the bottom */
@@ -1232,3 +1261,4 @@ button:hover, .timeframe-select:hover, .direction-selection button:hover, .amoun
   height: 10000%; /* This should make it stretch from top to bottom */
   z-index: -1; /* Ensure it's behind the coin images */
 }
+

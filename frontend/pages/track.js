@@ -26,7 +26,7 @@ export default function Track() {
   
         // Calculate positions
         orderedCoins.forEach((coin, index) => {
-          const horizontalCenter = 48; // assuming the center is at 50% of the parent container
+          const horizontalCenter = 50; // assuming the center is at 50% of the parent container
           const offset = (index - midpoint) * (100 / sortedCoins.length);
           const horizontalPosition = horizontalCenter + offset;
   
@@ -89,8 +89,12 @@ export default function Track() {
         </div>
 
 
-        <div className="graveyard-button-container">
+        <div className="track-button-container">
         <Link href="/" className="grave-button font-cyberpunk">H O M E</Link>
+      </div>
+
+      <div className="graveyard-button-container">
+        <Link href="/graveyard" className="grave-button font-cyberpunk">G R A V E</Link>
       </div>
       <div class="watermark">
       <img src="/watermark5.png" alt="Watermark" />

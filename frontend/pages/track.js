@@ -23,10 +23,13 @@ export default function Track() {
   
         // Merge two halves so the coin with the highest market cap is in the center
         const orderedCoins = [...leftHalf, ...rightHalf];
+        const isTotalCoinsOdd = orderedCoins.length % 2 !== 0;
+
   
         // Calculate positions
         orderedCoins.forEach((coin, index) => {
-          const horizontalCenter = 50; // assuming the center is at 50% of the parent container
+
+          const horizontalCenter = isTotalCoinsOdd ? 48.5 : 50;
           const offset = (index - midpoint) * (100 / sortedCoins.length);
           const horizontalPosition = horizontalCenter + offset;
   
@@ -34,7 +37,7 @@ export default function Track() {
           const minLogCap = Math.log(sortedCoins[sortedCoins.length - 1].market_cap);
           const maxLogCap = Math.log(sortedCoins[0].market_cap);
           const normalizedLogCap = (logCap - minLogCap) / (maxLogCap - minLogCap);
-          const verticalPosition = normalizedLogCap * 90; // Adjust as needed
+          const verticalPosition = normalizedLogCap * 87; // Adjust as needed
   
           coin.horizontalPosition = horizontalPosition;
           coin.verticalPosition = verticalPosition;
@@ -68,7 +71,7 @@ export default function Track() {
       </Head>
       <video id="background-video" autoPlay loop muted>
         <source src="/unknown_background.mp4" type="video/mp4"></source>
-    </video> 
+</video>    
       <main className="trackMain">
       <h1 className="title-background neon-title neon-title-main text-6xl font-bold font-cyberpunk opacity-0.95 text-cyberpunkYellow">Racetrack</h1>
       <div className="racetrack">
@@ -77,14 +80,33 @@ export default function Track() {
     left: `${coin.horizontalPosition}%`,
     bottom: `${coin.verticalPosition}%`,
   }}>
-    <div className="vertical-line left-line"></div> {/* Left line */}
+    {/* Conditionally render arrow image based on price_change_24h */}
+    {coin.price_change_24h !== 0 && (
+      <div className="arrow-container" style={{
+        opacity: 1 - (1 / (2 + 1000000*Math.abs(coin.price_change_24h))), // Adjust transparency based on change magnitude
+      }}>
+        <Image
+          src={coin.price_change_24h > 0 ? '/greenarrow.png' : '/redarrow.png'}
+          alt="Price Change Arrow"
+          width={24} // Set the size as needed
+          height={24}
+          unoptimized={true}
+        />
+      </div>
+    )}
+                  <div className="vertical-line"></div>
+
+    {/* Existing coin image */}
     <div className="coinImage">
       <Image src={coin.image} alt={coin.name} width={50} height={50} style={{ borderRadius: '50%' }} unoptimized={true} />
     </div>
-    <div className="vertical-line right-line"></div> {/* Right line */}
     <p>{formatMarketCap(coin.market_cap)}</p>
   </div>
 ))}
+
+
+
+
 
         </div>
 

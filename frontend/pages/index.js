@@ -409,57 +409,26 @@ export default function Home() {
               network.
           </div>
       )}
-  <div className="gif-button-container" style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '20px' }}>
+  <div className="gif-button-container">
   <button
     onClick={() => handleGifSelection('cube')}
-    style={// In your button style
-      {
-        padding: '10px 20px', // Adjust the padding as needed
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        border: selectedGif === 'cube' ? '3px solid #FEFF05' : '1px solid #FEFF05',
-        borderRadius: '10px',
-        boxShadow: selectedGif === 'cube' ? '0 0 8px 2px #FEFF05' : 'none',
-        transition: 'box-shadow 0.3s ease-in-out',
-        cursor: 'pointer',
-      }
-      }
+    className={`gif-button ${selectedGif === 'cube' ? 'selected' : ''}`}
   >
-    <img src="/cube3.gif" alt="Cube" className="gifButton" style={{ 
-      width: '50px', 
-      height: '50px', 
-      opacity:0.85, 
-      filter: selectedGif === 'cube' ? 'brightness(110%) contrast(120%)' : 'brightness(100%) contrast(100%)',
-      zIndex: 1000, // High z-index value
-      position: 'relative' }} />
+    <img 
+      src="/cube3.gif" 
+      alt="Cube" 
+      className="gifButton" 
+    />
   </button>
   <button
     onClick={() => handleGifSelection('brain')}
-    style={// In your button style
-      {
-        padding: '10px 20px', // Adjust the padding as needed
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        border: selectedGif === 'brain' ? '3px solid #FEFF05' : '1px solid #FEFF05',
-        borderRadius: '10px',
-        boxShadow: selectedGif === 'brain' ? '0 0 8px 2px #FEFF05' : 'none',
-        transition: 'box-shadow 0.3s ease-in-out',
-        cursor: 'pointer',
-      }
-      }
+    className={`gif-button ${selectedGif === 'brain' ? 'selected' : ''}`}
   >
-    <img src="/brain4.gif" alt="Brain" className="gifButton" style={{ 
-      width: '50px', 
-      height: '50px', 
-      opacity:0.85, 
-      filter: selectedGif === 'brain' ? 'brightness(120%) contrast(120%)' : 'brightness(100%) contrast(100%)',
-      zIndex: 1000, // High z-index value
-    position: 'relative'
-}} />
+    <img 
+      src="/brain4.gif" 
+      alt="Brain" 
+      className="gifButton" 
+    />
   </button>
 </div>
 

@@ -2,5 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/track": "pages/track.js"
+  "/dancehall": "pages/dancehall.js",
+  "/": "pages/index.js",
+  "/graveyard": "pages/graveyard.js"
 }

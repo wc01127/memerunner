@@ -20,7 +20,7 @@
                     0 0 4px rgba(233, 241, 255, 0.4);
   --button-font-size: 1rem;
   --watermark-width: 7rem; /* Initial width for watermarks */
-  --title-background-size: 16rem; /* Adjusted for correction */
+  --title-background-size: 20rem; /* Increased for better spacing */
   --wallet-button-width: 9rem;
   --wallet-font-size: 0.85rem;
   --grave-button-width: 10rem;
@@ -34,7 +34,7 @@
     --title-size-base: 1.5em;
     --button-font-size: 0.75rem; /* Adjusted for consistency */
     --watermark-width: 6rem; /* Adjusted size for medium screens */
-    --title-background-size: 10rem; /* Adjusted for medium screens */
+    --title-background-size: 14rem;
     --wallet-button-width: 7.5rem;
     --wallet-button-height: 2.3rem;
     --wallet-font-size: 0.55rem;
@@ -51,7 +51,7 @@
     --title-size-base: 1.2em;
     --button-font-size: 0.6rem; /* Adjusted for consistency */
     --watermark-width: 5rem; /* Adjusted size for small screens */
-    --title-background-size: 8rem; /* Adjusted for small screens */
+    --title-background-size: 12rem;
     --wallet-button-width: 5.5rem;
     --wallet-button-height: 2.8rem;
     --wallet-font-size: 0.55rem;
@@ -123,20 +123,7 @@ body {
   50% { opacity: 1; }
 }
 
-/* Button styles */
-.button-connect-wallet {
-  background-color: rgba(0, 0, 0, 0.5);
-  color: var(--cyberpunk-yellow);
-  border: 2px solid var(--cyberpunk-yellow);
-  font-weight: bold;
-  opacity: 0.95;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s, border 0.3s, opacity 0.3s;
-  box-shadow: var(--neon-glow);
-  width: var(--wallet-button-width);
-  height: var(--wallet-button-height);
-  font-size: var(--wallet-font-size);
-}
+
 
 .vertical-button, .neon-button {
   background-color: rgba(0, 0, 0, 0.5);
@@ -149,7 +136,7 @@ body {
   box-shadow: var(--neon-glow);
 }
 
-.button-connect-wallet:hover, .vertical-button:hover, .neon-button:hover {
+.vertical-button:hover, .neon-button:hover {
   background-color: var(--cyberpunk-yellow);
   color: #000000;
   border-color: transparent;
@@ -162,12 +149,13 @@ body {
 }
 
 .neon-title-main {
-  padding-top: 0.2rem;
+  padding-top: 0.1rem;
   font-size: var(--title-size-base);
   text-align: center;
   margin: 0 auto;
   display: block;
   opacity: 0.96;
+  white-space: nowrap;
 }
 
 .neon-title-main:hover {
@@ -188,11 +176,11 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;
+  padding: 20px;
+  z-index: 100;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 1rem;
 }
 
 .invisible-spacer {
@@ -202,11 +190,15 @@ body {
 .main-background {
   animation: flickerAnimation 8s infinite;
   display: flex;
-  padding-top: 5rem;
+  padding-top: 5em;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
 }
 
 @keyframes flickerAnimation {
@@ -228,15 +220,16 @@ body {
   justify-content: center;
   gap: 0.1rem;
   max-width: 80%;
-  max-height: var(--coin-container-height);
+  max-height: calc(100vh - 250px);
   position: relative;
   padding: 0.2rem;
   margin-top: 1%;
   border-radius: 8px;
   background-color: rgba(211, 211, 211, 0.45);
-  overflow-y: scroll; /* Enables vertical scrolling if content overflows */
-  scrollbar-width: thin; /* For Firefox */
+  overflow-y: auto;
+  scrollbar-width: thin;
   scrollbar-color: var(--cyberpunk-yellow) rgba(0, 0, 0, 0.5);
+  margin-bottom: 100px;
 }
 
 /* For Webkit Browsers like Chrome and Safari */
@@ -311,7 +304,13 @@ body {
   height: 100vh;
   object-fit: cover;
   position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   z-index: -1;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .watermark, .watermark2 {
@@ -619,20 +618,6 @@ body {
   text-orientation: upright;
   position: fixed; /* Fixed position to place them on the sides */
   z-index: 10; /* Ensure they're above other elements */
-}
-
-.button-make {
-  @apply vertical-button;
-  left: 0.5em; /* Adjust as necessary for spacing from the left edge */
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%); /* Adjust vertical centering */
-}
-
-.button-take {
-  @apply vertical-button;
-  right: 0.5em; /* Adjust as necessary for spacing from the right edge */
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%); /* Adjust vertical centering */
 }
 
 .sort-dropdown {
@@ -1003,11 +988,11 @@ body {
   display: inline-block;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 8px;
-  padding: 5px;
+  padding: 5px 20px;
   color: var(--cyberpunk-yellow);
   margin: 0 auto;
   text-align: center;
-  width: var(--title-background-size);
+  min-width: var(--title-background-size);
 }
 
 .gif-hover-glow:hover {
@@ -1294,4 +1279,57 @@ button:hover, .timeframe-select:hover, .direction-selection button:hover, .amoun
 
 .lane {
   overflow: visible; /* Allows elements to be visible outside of the container */
+}
+
+/* Ensure the body and html have no scrolling */
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+/* Update the gif-button-container styling */
+.gif-button-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 220px; /* Increase this value to move buttons down */
+  z-index: 99;
+}
+
+/* Update the title-button-container */
+.title-button-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Title background */
+.title-background {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  padding: 5px 20px;
+  margin-bottom: 60px; /* Add space below the title */
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .gif-button-container {
+    padding-top: 100px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .gif-button-container {
+    padding-top: 80px;
+  }
 }
